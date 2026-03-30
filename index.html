@@ -205,7 +205,7 @@
         </div>
         <div class="form-row">
           <input type="date" id="h-data">
-          <input type="number" id="h-horas" placeholder="Horas" min="0" max="24" step="0.01">
+          <input type="text" id="h-horas" placeholder="ex: 8,30" inputmode="decimal" style="flex:0.7">
         </div>
         <button class="add-btn" onclick="addHora()">+ Adicionar dia trabalhado</button>
       </div>
@@ -361,10 +361,20 @@
   };
 
   // ─── Actions ───────────────────────────────────────────────────
+  function parseHoras(str) {
+    str = str.trim().replace(',', '.');
+    const val = parseFloat(str);
+    if (isNaN(val)) return NaN;
+    const intPart = Math.floor(val);
+    const decPart = Math.round((val - intPart) * 100);
+    if (decPart >= 60) return NaN;
+    return intPart + decPart / 60;
+  }
+
   window.addHora = function() {
     const dataVal = document.getElementById('h-data').value;
-    const horas = parseFloat(document.getElementById('h-horas').value);
-    if (!dataVal || isNaN(horas) || horas < 0) { showToast('Preencha data e horas'); return; }
+    const horas = parseHoras(document.getElementById('h-horas').value);
+    if (!dataVal || isNaN(horas) || horas < 0) { showToast('Preencha data e horas (ex: 8,30)'); return; }
     appData.horas.push({ data: dataVal, horas });
     appData.horas.sort((a,b) => a.data.localeCompare(b.data));
     document.getElementById('h-horas').value = '';
