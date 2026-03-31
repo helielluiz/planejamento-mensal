@@ -42,9 +42,12 @@
     .sync-dot.error { background: #ff8080; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-    .month-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
-    .month-nav button { background: rgba(255,255,255,0.2); border: none; color: white; border-radius: 8px; padding: 6px 14px; cursor: pointer; font-size: 20px; line-height: 1; }
-    .month-nav span { font-size: 16px; font-weight: 500; }
+    .periodo-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+    .periodo-field { display: flex; flex-direction: column; flex: 1; gap: 2px; }
+    .periodo-field label { font-size: 10px; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.5px; }
+    .periodo-field input { background: rgba(255,255,255,0.2); border: none; color: white; border-radius: 8px; padding: 7px 10px; font-size: 13px; font-family: inherit; outline: none; width: 100%; color-scheme: dark; }
+    .periodo-field input:focus { background: rgba(255,255,255,0.3); }
+    .periodo-sep { color: rgba(255,255,255,0.6); font-size: 18px; margin-top: 14px; flex-shrink: 0; }
 
     /* TABS */
     .tabs { display: flex; background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
@@ -158,10 +161,16 @@
         <span id="syncLabel">Conectado</span>
       </div>
     </div>
-    <div class="month-nav">
-      <button onclick="changeMonth(-1)">‹</button>
-      <span id="monthLabel"></span>
-      <button onclick="changeMonth(1)">›</button>
+    <div class="periodo-row">
+      <div class="periodo-field">
+        <label>De</label>
+        <input type="date" id="periodoInicio" onchange="onPeriodoChange()">
+      </div>
+      <div class="periodo-sep">→</div>
+      <div class="periodo-field">
+        <label>Até</label>
+        <input type="date" id="periodoFim" onchange="onPeriodoChange()">
+      </div>
     </div>
   </div>
 
@@ -249,13 +258,20 @@
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
   import { getFirestore, doc, setDoc, onSnapshot, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-  const MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
   let db, unsubscribe;
-  let currentMonth = new Date().getMonth();
-  let currentYear = new Date().getFullYear();
   let appData = { horas: [], receitas: [], despesas: [] };
   let fator = 0;
   let isSaving = false;
+
+  function defaultInicio() {
+    const d = new Date(); d.setDa    T')[0];
+  }
+  function d    Date().getFullYear(), new D    OString().split('T')[0];i    o() {
+    return {
+      inicio: document.getElementById('periodoInicio').value || defaultIn    io(),
+      fim: document.getElementById('periodoFim').value || defaultFim()
+    };
+  }
 
   // ─── Firebase Config (pré-configurado) ────────────────────────
   const FIREBASE_CONFIG = {
@@ -286,14 +302,15 @@
     const root = document.getElementById('appRoot');
     root.style.display = 'flex';
     root.style.flexDirection = 'column';
-    document.getElementById('monthLabel').textContent = `${MONTHS[currentMonth]} ${currentYear}`;
+    document.getElementById('periodoInicio').value = defaultInicio();
+    document.getElementById('periodoFim').value  = defaultFim();
     document.getElementById('h-data').value = new Date().toISOString().split('T')[0];
     loadFator();
   }
 
   // ─── Firestore ─────────────────────────────────────────────────
   function docRef() {
-    return doc(db, 'planejamento', `${currentYear}_${String(currentMonth+1).padStart(2,'0')}`);
+    return doc(db, 'planejamento', 'dados');
   }
 
   function subscribeMonth() {
@@ -326,6 +343,8 @@
     isSaving = false;
   }
 
+  window.onPeriodoChange = function() { renderAll(); };
+
   // ─── Fator ─────────────────────────────────────────────────────
   function loadFator() {
     fator = parseFloat(localStorage.getItem('fator_hora')) || 0;
@@ -348,16 +367,7 @@
     document.getElementById('mainContent').scrollTop = 0;
   };
 
-  // ─── Month Nav ─────────────────────────────────────────────────
-  window.changeMonth = function(dir) {
-    currentMonth += dir;
-    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-    document.getElementById('monthLabel').textContent = `${MONTHS[currentMonth]} ${currentYear}`;
-    appData = { horas: [], receitas: [], despesas: [] };
-    renderAll();
-    subscribeMonth();
-  };
+  // ─── Month Nav removido: substituído por seletor de período ───
 
   // ─── Actions ───────────────────────────────────────────────────
   function parseHoras(str) {
@@ -430,13 +440,17 @@
 
   function renderAll() {
     fator = parseFloat(document.getElementById('fatorHora').value) || 0;
-    const totalHorasDec = appData.horas.reduce((s,h) => s + h.horas, 0);
+    const { inicio,  fim }        etPeriodo();
+
+    // Filtra horas pelo período         cionado
+    const horasFiltrada        appData.horas.filter(h => h.dat      >= i      cio && h.data <= fim);
+    const totalHorasDec = horasFiltradas.red      e((s,h) => s + h.horas, 0);
     const totalHorasVal = totalHorasDec * fator;
     const totalReceitas = appData.receitas.reduce((s,r) => s + r.valor, 0);
     const totalDespesas = appData.despesas.reduce((s,d) => s + d.valor, 0);
     const totalGanho = totalHorasVal + totalReceitas;
     const saldo = totalGanho - totalDespesas;
-    const dias = appData.horas.filter(h => h.horas > 0).length;
+    const        s = horasFiltradas.filter(h => h.horas > 0).length;
 
     document.getElementById('r-ganho').textContent = fmtBRL(totalGanho);
     document.getElementById('r-contas').textContent = fmtBRL(totalDespesas);
@@ -450,7 +464,7 @@
     const sc = document.getElementById('r-saldo-card');
     sc.className = 'resumo-card saldo ' + (saldo >= 0 ? 'pos' : 'neg');
 
-    // Horas
+    // Horas - mostra todas, marca as fora do período
     const lh = document.getElementById('lista-horas');
     if (!appData.horas.length) {
       lh.innerHTML = '<div class="empty">Nenhum dia lançado ainda</div>';
@@ -458,14 +472,15 @@
       lh.innerHTML = '<div class="card">' + appData.horas.map((h,i) => {
         const d = new Date(h.data + 'T12:00:00');
         const dia = String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0');
-        return `<div class="card-row">
+        const foraPeriodo = h.data < inicio || h.data > fim;
+        return `<div class="card-row" style="${foraPeriodo ? 'opacity:0.35' : ''}">
           <div class="date-badge">${dia}</div>
           <div class="info"><div class="name">${fmtH(h.horas)}</div><div class="sub">R$ ${fator.toFixed(2)}/h</div></div>
           <div class="amount pos">${fmtBRL(h.horas * fator)}</div>
           <button class="del-btn" onclick="removeHora(${i})">×</button>
         </div>`;
       }).join('') +
-      `<div class="total-row green"><span>Total</span><span>${fmtH(totalHorasDec)} = ${fmtBRL(totalHorasVal)}</span></div></div>`;
+      `<div class="total-row green"><span>No período</span><span>${fmtH(totalHorasDec)} = $ {fmtBRL(totalHorasVal)}</span></ d iv></div>`;
     }
 
     // Receitas
