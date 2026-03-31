@@ -535,83 +535,72 @@
   var graficoInstance = null;
 
   function renderGrafico(periodo, horasPeriodo, receitasPeriodo, despesasPeriodo, totalHorasVal) {
-    var inicio = new Date(periodo.inicio + 'T12:00:00');
-    var fim = new Date(periodo.fim + 'T12:00:00');
+    // Grafico de linhas por item (nome) x valor
+    // Receitas: cada receita e um ponto, + "Horas" como item especial
+    // Despesas: cada despesa e um ponto
 
-    // Agrupa por semana (segunda a domingo)
-    var semanas = [];
-    var cur = new Date(inicio);
-    // retrocede ate segunda
-    var diaSemana = cur.getDay();
-    var diff = diaSemana === 0 ? -6 : 1 - diaSemana;
-    cur.setDate(cur.getDate() + diff);
+    var labelsRec = [];
+    var valoresRec = [];
 
-    while (cur <= fim) {
-      var segISO = cur.toISOString().split('T')[0];
-      var domDate = new Date(cur);
-      domDate.setDate(domDate.getDate() + 6);
-      var domISO = domDate.toISOString().split('T')[0];
-
-      var label = String(cur.getDate()).padStart(2,'0') + '/' + String(cur.getMonth()+1).padStart(2,'0');
-
-      var recSemana = receitasPeriodo.filter(function(r) { return r.data >= segISO && r.data <= domISO; })
-        .reduce(function(s, r) { return s + r.valor; }, 0);
-
-      var horaSemana = horasPeriodo.filter(function(h) { return h.data >= segISO && h.data <= domISO; })
-        .reduce(function(s, h) { return s + h.horas; }, 0);
-      var horaValSemana = horaSemana * fator;
-
-      var despSemana = despesasPeriodo.filter(function(d) { return d.data >= segISO && d.data <= domISO; })
-        .reduce(function(s, d) { return s + d.valor; }, 0);
-
-      semanas.push({ label: label, ganho: recSemana + horaValSemana, despesa: despSemana });
-      cur.setDate(cur.getDate() + 7);
+    // Horas como primeiro item de ganho
+    if (totalHorasVal > 0) {
+      labelsRec.push('Horas');
+      valoresRec.push(totalHorasVal);
     }
+    receitasPeriodo.forEach(function(r) {
+      labelsRec.push(r.nome);
+      valoresRec.push(r.valor);
+    });
 
-    // Se so uma semana, agrupa por dia
-    var labels, dataGanho, dataDespesa;
-    if (semanas.length <= 1) {
-      labels = [];
-      dataGanho = [];
-      dataDespesa = [];
-      var d = new Date(inicio);
-      while (d <= fim) {
-        var iso = d.toISOString().split('T')[0];
-        labels.push(String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0'));
-        var rDia = receitasPeriodo.filter(function(r){return r.data===iso;}).reduce(function(s,r){return s+r.valor;},0);
-        var hDia = horasPeriodo.filter(function(h){return h.data===iso;}).reduce(function(s,h){return s+h.horas;},0);
-        dataGanho.push(rDia + hDia * fator);
-        dataDespesa.push(despesasPeriodo.filter(function(dd){return dd.data===iso;}).reduce(function(s,dd){return s+dd.valor;},0));
-        d.setDate(d.getDate() + 1);
-      }
-    } else {
-      labels = semanas.map(function(s){return s.label;});
-      dataGanho = semanas.map(function(s){return s.ganho;});
-      dataDespesa = semanas.map(function(s){return s.despesa;});
-    }
+    var labelsDesp = [];
+    var valoresDesp = [];
+    despesasPeriodo.forEach(function(d) {
+      labelsDesp.push(d.nome);
+      valoresDesp.push(d.valor);
+    });
+
+    // Une todos os labels para eixo X comum
+    var todosLabels = [];
+    labelsRec.forEach(function(l) { if (!todosLabels.includes(l)) todosLabels.push(l); });
+    labelsDesp.forEach(function(l) { if (!todosLabels.includes(l)) todosLabels.push(l); });
+
+    var dataRec = todosLabels.map(function(l) {
+      var idx = labelsRec.indexOf(l);
+      return idx >= 0 ? valoresRec[idx] : null;
+    });
+    var dataDesp = todosLabels.map(function(l) {
+      var idx = labelsDesp.indexOf(l);
+      return idx >= 0 ? valoresDesp[idx] : null;
+    });
 
     var ctx = document.getElementById('graficoResumo').getContext('2d');
     if (graficoInstance) { graficoInstance.destroy(); }
     graficoInstance = new Chart(ctx, {
-      type: 'bar',
+      type: 'line',
       data: {
-        labels: labels,
+        labels: todosLabels,
         datasets: [
           {
-            label: 'Receitas + Horas',
-            data: dataGanho,
-            backgroundColor: 'rgba(29,158,117,0.7)',
+            label: 'Receitas / Horas',
+            data: dataRec,
             borderColor: '#1D9E75',
-            borderWidth: 1,
-            borderRadius: 4
+            backgroundColor: 'rgba(29,158,117,0.1)',
+            pointBackgroundColor: '#1D9E75',
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            tension: 0.3,
+            spanGaps: false
           },
           {
             label: 'Despesas',
-            data: dataDespesa,
-            backgroundColor: 'rgba(226,75,74,0.7)',
+            data: dataDesp,
             borderColor: '#E24B4A',
-            borderWidth: 1,
-            borderRadius: 4
+            backgroundColor: 'rgba(226,75,74,0.1)',
+            pointBackgroundColor: '#E24B4A',
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            tension: 0.3,
+            spanGaps: false
           }
         ]
       },
@@ -623,13 +612,21 @@
           tooltip: {
             callbacks: {
               label: function(ctx) {
+                if (ctx.raw === null) return null;
                 return ctx.dataset.label + ': R$ ' + Number(ctx.raw).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
               }
             }
           }
         },
         scales: {
-          x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+          x: {
+            grid: { display: false },
+            ticks: {
+              font: { size: 10 },
+              maxRotation: 45,
+              minRotation: 30
+            }
+          },
           y: {
             grid: { color: '#f0f0f0' },
             ticks: {
