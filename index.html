@@ -14,19 +14,19 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f4f6f8; color: #1a1a1a; }
-
     :root {
       --accent: #1D9E75;
       --accent-light: #E1F5EE;
       --accent-dark: #0F6E56;
       --danger: #E24B4A;
       --danger-light: #FCEBEB;
+      --blue: #185FA5;
+      --blue-light: #E6F1FB;
       --gray: #f4f6f8;
       --border: #e0e0e0;
       --text: #1a1a1a;
       --text-muted: #666;
     }
-
     .header {
       background: var(--accent);
       color: white;
@@ -40,33 +40,22 @@
     .sync-dot.syncing { background: #ffd080; animation: pulse 1s infinite; }
     .sync-dot.error { background: #ff8080; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
     .periodo-row { display: flex; align-items: flex-end; gap: 8px; }
     .periodo-field { display: flex; flex-direction: column; flex: 1; gap: 3px; }
     .periodo-field label { font-size: 10px; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.5px; }
     .periodo-field input[type="date"] {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      border-radius: 8px;
-      padding: 8px 10px;
-      font-size: 13px;
-      font-family: inherit;
-      outline: none;
-      width: 100%;
-      color-scheme: dark;
+      background: rgba(255,255,255,0.2); border: none; color: white;
+      border-radius: 8px; padding: 8px 10px; font-size: 13px;
+      font-family: inherit; outline: none; width: 100%; color-scheme: dark;
     }
     .periodo-field input[type="date"]:focus { background: rgba(255,255,255,0.3); }
     .periodo-sep { color: rgba(255,255,255,0.6); font-size: 16px; padding-bottom: 8px; flex-shrink: 0; }
-
     .tabs { display: flex; background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
     .tab { flex: 1; padding: 12px 4px; text-align: center; font-size: 12px; cursor: pointer; color: var(--text-muted); border-bottom: 2px solid transparent; transition: all 0.15s; user-select: none; }
     .tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
-
     .content { padding: 12px; padding-bottom: 32px; width: 100%; max-width: 520px; margin: 0 auto; overflow-x: hidden; }
     .tab-pane { display: none; }
     .tab-pane.active { display: block; }
-
     .resumo-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
     .resumo-card { background: white; border-radius: 12px; padding: 12px 8px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
     .resumo-card .label { font-size: 10px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
@@ -75,14 +64,11 @@
     .resumo-card.contas .value { color: var(--danger); }
     .resumo-card.saldo.pos .value { color: var(--accent-dark); }
     .resumo-card.saldo.neg .value { color: var(--danger); }
-
     .horas-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
     .ht-card { background: var(--accent-light); border-radius: 10px; padding: 10px 8px; text-align: center; }
     .ht-card .lbl { font-size: 10px; color: var(--accent-dark); margin-bottom: 2px; }
     .ht-card .val { font-size: 13px; font-weight: 700; color: var(--accent-dark); }
-
     .section-title { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin: 16px 0 8px; }
-
     .card { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 10px; overflow: hidden; }
     .card-row { display: flex; align-items: center; padding: 11px 14px; gap: 8px; border-bottom: 1px solid #f0f0f0; }
     .card-row:last-child { border-bottom: none; }
@@ -95,80 +81,39 @@
     .card-row .amount.neg { color: var(--danger); }
     .card-row .del-btn { background: none; border: none; cursor: pointer; color: #ccc; font-size: 20px; padding: 0 0 0 6px; line-height: 1; flex-shrink: 0; }
     .card-row .del-btn:active { color: var(--danger); }
-
     .total-row { display: flex; justify-content: space-between; padding: 10px 14px; font-size: 13px; font-weight: 600; }
     .total-row.green { background: var(--accent-light); color: var(--accent-dark); }
     .total-row.red { background: var(--danger-light); color: var(--danger); }
-
+    .chart-card { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 14px 12px 12px; margin-bottom: 10px; }
+    .chart-legend { display: flex; gap: 16px; margin-top: 10px; justify-content: center; }
+    .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); }
+    .legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
     .add-form { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 14px; margin-bottom: 12px; }
-
     .fator-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
     .fator-row label { font-size: 13px; color: var(--text-muted); flex-shrink: 0; white-space: nowrap; }
     .fator-row input { flex: 1; min-width: 0; }
-
     .form-col { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
-
     .field-input {
-      width: 100%;
-      padding: 12px 12px;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      font-size: 16px;
-      background: var(--gray);
-      color: var(--text);
-      font-family: inherit;
-      outline: none;
-      transition: border-color 0.15s;
-      -webkit-appearance: none;
-      appearance: none;
+      width: 100%; padding: 12px 12px; border: 1.5px solid var(--border);
+      border-radius: 8px; font-size: 16px; background: var(--gray);
+      color: var(--text); font-family: inherit; outline: none;
+      transition: border-color 0.15s; -webkit-appearance: none; appearance: none;
     }
     .field-input:focus { border-color: var(--accent); background: white; }
-
-    .filtro-semana {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-      padding: 12px 14px;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: flex-end;
-      gap: 8px;
-    }
+    .filtro-semana { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 12px 14px; margin-bottom: 12px; display: flex; align-items: flex-end; gap: 8px; }
     .filtro-field { display: flex; flex-direction: column; flex: 1; gap: 4px; }
     .filtro-field label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
     .filtro-sep { color: var(--text-muted); font-size: 14px; padding-bottom: 12px; flex-shrink: 0; }
-
-    .add-btn {
-      width: 100%;
-      padding: 14px;
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      transition: background 0.15s;
-      touch-action: manipulation;
-    }
+    .add-btn { width: 100%; padding: 14px; background: var(--accent); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.15s; touch-action: manipulation; }
     .add-btn:active { background: var(--accent-dark); transform: scale(0.98); }
-
-    .empty { text-align: center; padding: 32px 16px; color: var(--text-muted); font-size: 14px; }
-
+    .empty { text-align: center; padding: 24px 16px; color: var(--text-muted); font-size: 14px; }
     .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; z-index: 999; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
     .toast.show { opacity: 1; }
-
     .loading-overlay { position: fixed; inset: 0; background: var(--accent); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.4s; }
     .loading-overlay.hidden { opacity: 0; pointer-events: none; }
     .loading-logo { font-size: 48px; margin-bottom: 16px; }
     .loading-text { color: white; font-size: 18px; font-weight: 600; }
     .loading-sub { color: rgba(255,255,255,0.7); font-size: 13px; margin-top: 6px; }
-    .chart-card { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 14px 12px 10px; margin-bottom: 10px; }
-    .chart-title { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
-    .chart-legend { display: flex; gap: 16px; margin-top: 10px; justify-content: center; }
-    .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); }
-    .legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
   </style>
 </head>
 <body>
@@ -230,25 +175,17 @@
 
       <div class="section-title">Horas no per&#237;odo</div>
       <div class="horas-grid">
-        <div class="ht-card">
-          <div class="lbl">Total horas</div>
-          <div class="val" id="r-total-h">0h 0min</div>
-        </div>
-        <div class="ht-card">
-          <div class="lbl">Dias trabalhados</div>
-          <div class="val" id="r-dias">0</div>
-        </div>
-        <div class="ht-card">
-          <div class="lbl">M&#233;dia/dia</div>
-          <div class="val" id="r-media">0h</div>
-        </div>
+        <div class="ht-card"><div class="lbl">Total horas</div><div class="val" id="r-total-h">0h 0min</div></div>
+        <div class="ht-card"><div class="lbl">Dias trabalhados</div><div class="val" id="r-dias">0</div></div>
+        <div class="ht-card"><div class="lbl">M&#233;dia/dia</div><div class="val" id="r-media">0h</div></div>
       </div>
 
       <div class="section-title">Ganhos vs Despesas</div>
       <div class="chart-card">
         <canvas id="graficoResumo" height="160"></canvas>
         <div class="chart-legend">
-          <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div>Ganhos</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div>Horas</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#185FA5"></div>Receitas</div>
           <div class="legend-item"><div class="legend-dot" style="background:#E24B4A"></div>Despesas</div>
         </div>
       </div>
@@ -277,7 +214,6 @@
         </div>
         <button class="add-btn" onclick="addHora()">+ Adicionar dia trabalhado</button>
       </div>
-
       <div class="filtro-semana">
         <div class="filtro-field">
           <label>Exibir de</label>
@@ -289,7 +225,6 @@
           <input type="date" id="horasFiltroFim" class="field-input" onchange="renderAll()">
         </div>
       </div>
-
       <div id="lista-horas"></div>
     </div>
 
@@ -328,42 +263,26 @@
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
   import { getFirestore, doc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-  const FIREBASE_CONFIG = {
+  var FIREBASE_CONFIG = {
     apiKey: "AIzaSyB5Zx1KgRQibhGVciG7C0bzKq4Esul68ps",
     authDomain: "planejamento-mensal-be519.firebaseapp.com",
     projectId: "planejamento-mensal-be519",
     appId: "1:266235926962:web:5e1608137618076d5c6cab"
   };
 
-  let db, unsubscribe;
-  let appData = { horas: [], receitas: [], despesas: [] };
-  let fator = 0;
+  var db, unsubscribe;
+  var appData = { horas: [], receitas: [], despesas: [] };
+  var fator = 0;
+  var graficoInstance = null;
 
-  function toISO(d) {
-    return d.toISOString().split('T')[0];
-  }
-
-  function hoje() {
-    return toISO(new Date());
-  }
-
-  function defaultInicio() {
-    var d = new Date();
-    d.setDate(1);
-    return toISO(d);
-  }
-
-  function defaultFim() {
-    var now = new Date();
-    var d = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-    return toISO(d);
-  }
-
-  function segundaFeiraDaSemana() {
+  function toISO(d) { return d.toISOString().split('T')[0]; }
+  function hoje() { return toISO(new Date()); }
+  function defaultInicio() { var d = new Date(); d.setDate(1); return toISO(d); }
+  function defaultFim() { var n = new Date(); return toISO(new Date(n.getFullYear(), n.getMonth() + 1, 0)); }
+  function segundaFeira() {
     var d = new Date();
     var dia = d.getDay();
-    var diff = dia === 0 ? -6 : 1 - dia;
-    d.setDate(d.getDate() + diff);
+    d.setDate(d.getDate() + (dia === 0 ? -6 : 1 - dia));
     return toISO(d);
   }
 
@@ -373,17 +292,14 @@
       fim: document.getElementById('periodoFim').value || defaultFim()
     };
   }
-
   function getFiltroHoras() {
     return {
-      inicio: document.getElementById('horasFiltroInicio').value || segundaFeiraDaSemana(),
+      inicio: document.getElementById('horasFiltroInicio').value || segundaFeira(),
       fim: document.getElementById('horasFiltroFim').value || hoje()
     };
   }
 
-  function docRef() {
-    return doc(db, 'planejamento', 'dados');
-  }
+  function docRef() { return doc(db, 'planejamento', 'dados'); }
 
   function setSyncStatus(state, text) {
     var dot = document.getElementById('syncDot');
@@ -398,7 +314,6 @@
     t.classList.add('show');
     setTimeout(function() { t.classList.remove('show'); }, 2500);
   }
-
   window.showToast = showToast;
 
   function subscribeData() {
@@ -415,18 +330,13 @@
       }
       renderAll();
       setSyncStatus('ok', 'Sincronizado');
-    }, function() {
-      setSyncStatus('error', 'Erro de conexao');
-    });
+    }, function() { setSyncStatus('error', 'Erro de conexao'); });
   }
 
   async function saveToFirebase() {
     setSyncStatus('syncing', 'Salvando...');
-    try {
-      await setDoc(docRef(), appData);
-    } catch(e) {
-      setSyncStatus('error', 'Erro ao salvar');
-    }
+    try { await setDoc(docRef(), appData); }
+    catch(e) { setSyncStatus('error', 'Erro ao salvar'); }
   }
 
   function loadFator() {
@@ -444,7 +354,7 @@
     document.querySelectorAll('.tab-pane').forEach(function(el) { el.classList.remove('active'); });
     document.querySelectorAll('.tab').forEach(function(el) { el.classList.remove('active'); });
     document.getElementById('tab-' + tab).classList.add('active');
-    var idx = ['resumo', 'horas', 'receitas', 'despesas'].indexOf(tab);
+    var idx = ['resumo','horas','receitas','despesas'].indexOf(tab);
     document.querySelectorAll('.tab')[idx].classList.add('active');
     document.getElementById('mainContent').scrollTop = 0;
   };
@@ -455,103 +365,82 @@
     str = str.trim().replace(',', '.');
     var val = parseFloat(str);
     if (isNaN(val)) return NaN;
-    var intPart = Math.floor(val);
-    var decPart = Math.round((val - intPart) * 100);
-    if (decPart >= 60) return NaN;
-    return intPart + decPart / 60;
+    var h = Math.floor(val);
+    var m = Math.round((val - h) * 100);
+    if (m >= 60) return NaN;
+    return h + m / 60;
   }
 
   window.addHora = function() {
-    var dataVal = document.getElementById('h-data').value;
-    var horas = parseHoras(document.getElementById('h-horas').value);
-    if (!dataVal || isNaN(horas) || horas < 0) { showToast('Preencha data e horas (ex: 8,30)'); return; }
-    appData.horas.push({ data: dataVal, horas: horas });
-    appData.horas.sort(function(a, b) { return a.data.localeCompare(b.data); });
+    var dv = document.getElementById('h-data').value;
+    var hr = parseHoras(document.getElementById('h-horas').value);
+    if (!dv || isNaN(hr) || hr < 0) { showToast('Preencha data e horas (ex: 8,30)'); return; }
+    appData.horas.push({ data: dv, horas: hr });
+    appData.horas.sort(function(a,b){ return a.data.localeCompare(b.data); });
     document.getElementById('h-horas').value = '';
-    saveToFirebase();
-    renderAll();
+    saveToFirebase(); renderAll();
   };
-
   window.removeHora = function(i) {
     if (!confirm('Remover este dia?')) return;
-    appData.horas.splice(i, 1);
-    saveToFirebase();
-    renderAll();
+    appData.horas.splice(i, 1); saveToFirebase(); renderAll();
   };
 
   window.addReceita = function() {
-    var dataVal = document.getElementById('rec-data').value;
-    var nome = document.getElementById('rec-nome').value.trim();
-    var valor = parseFloat(document.getElementById('rec-valor').value);
-    if (!dataVal || !nome || isNaN(valor) || valor < 0) { showToast('Preencha data, descricao e valor'); return; }
-    appData.receitas.push({ data: dataVal, nome: nome, valor: valor });
-    appData.receitas.sort(function(a, b) { return a.data.localeCompare(b.data); });
+    var dv = document.getElementById('rec-data').value;
+    var nm = document.getElementById('rec-nome').value.trim();
+    var vl = parseFloat(document.getElementById('rec-valor').value);
+    if (!dv || !nm || isNaN(vl) || vl < 0) { showToast('Preencha data, descricao e valor'); return; }
+    appData.receitas.push({ data: dv, nome: nm, valor: vl });
+    appData.receitas.sort(function(a,b){ return a.data.localeCompare(b.data); });
     document.getElementById('rec-nome').value = '';
     document.getElementById('rec-valor').value = '';
-    saveToFirebase();
-    renderAll();
+    saveToFirebase(); renderAll();
   };
-
   window.removeReceita = function(i) {
     if (!confirm('Remover esta receita?')) return;
-    appData.receitas.splice(i, 1);
-    saveToFirebase();
-    renderAll();
+    appData.receitas.splice(i, 1); saveToFirebase(); renderAll();
   };
 
   window.addDespesa = function() {
-    var dataVal = document.getElementById('desp-data').value;
-    var nome = document.getElementById('desp-nome').value.trim();
-    var valor = parseFloat(document.getElementById('desp-valor').value);
-    if (!dataVal || !nome || isNaN(valor) || valor < 0) { showToast('Preencha data, nome e valor'); return; }
-    appData.despesas.push({ data: dataVal, nome: nome, valor: valor });
-    appData.despesas.sort(function(a, b) { return a.data.localeCompare(b.data); });
+    var dv = document.getElementById('desp-data').value;
+    var nm = document.getElementById('desp-nome').value.trim();
+    var vl = parseFloat(document.getElementById('desp-valor').value);
+    if (!dv || !nm || isNaN(vl) || vl < 0) { showToast('Preencha data, nome e valor'); return; }
+    appData.despesas.push({ data: dv, nome: nm, valor: vl });
+    appData.despesas.sort(function(a,b){ return a.data.localeCompare(b.data); });
     document.getElementById('desp-nome').value = '';
     document.getElementById('desp-valor').value = '';
-    saveToFirebase();
-    renderAll();
+    saveToFirebase(); renderAll();
   };
-
   window.removeDespesa = function(i) {
     if (!confirm('Remover esta despesa?')) return;
-    appData.despesas.splice(i, 1);
-    saveToFirebase();
-    renderAll();
+    appData.despesas.splice(i, 1); saveToFirebase(); renderAll();
   };
 
   function fmtBRL(v) {
     return 'R$ ' + Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
-
   function fmtH(dec) {
     var h = Math.floor(Math.abs(dec));
     var m = Math.round((Math.abs(dec) - h) * 60);
-    return h + 'h ' + String(m).padStart(2, '0') + 'min';
+    return h + 'h ' + String(m).padStart(2,'0') + 'min';
   }
-
-  var graficoInstance = null;
+  function fmtData(iso) {
+    var d = new Date(iso + 'T12:00:00');
+    return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0');
+  }
 
   function renderGrafico(totalHorasVal, totalReceitas, totalDespesas) {
     var ctx = document.getElementById('graficoResumo').getContext('2d');
     if (graficoInstance) { graficoInstance.destroy(); }
-
-    var labels = ['Horas', 'Receitas', 'Despesas'];
-    var valores = [totalHorasVal, totalReceitas, totalDespesas];
-    var cores = [
-      'rgba(29,158,117,0.85)',
-      'rgba(24,95,165,0.85)',
-      'rgba(226,75,74,0.85)'
-    ];
-    var coresBorda = ['#1D9E75','#185FA5','#E24B4A'];
-
     graficoInstance = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: labels,
+        labels: ['Horas', 'Receitas', 'Despesas'],
         datasets: [{
-          data: valores,
-          backgroundColor: cores,
-          borderColor: coresBorda,
+          data: [totalHorasVal, totalReceitas, totalDespesas],
+          backgroundColor: ['rgba(29,158,117,0.85)', 'rgba(24,95,165,0.85)', 'rgba(226,75,74,0.85)'],
+          borderColor: ['#1D9E75', '#185FA5', '#E24B4A'],
           borderWidth: 1.5,
           borderRadius: 6,
           barThickness: 48
@@ -565,23 +454,18 @@
           tooltip: {
             callbacks: {
               label: function(ctx) {
-                return 'R$ ' + Number(ctx.raw).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+                return 'R$ ' + Number(ctx.raw).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
               }
             }
           }
         },
         scales: {
-          x: {
-            grid: { display: false },
-            ticks: { font: { size: 13 }, color: '#444' }
-          },
+          x: { grid: { display: false }, ticks: { font: { size: 13 }, color: '#444' } },
           y: {
             grid: { color: '#f0f0f0' },
             ticks: {
               font: { size: 11 },
-              callback: function(v) {
-                return 'R$' + (v >= 1000 ? (v/1000).toFixed(1)+'k' : v);
-              }
+              callback: function(v) { return 'R$' + (v >= 1000 ? (v/1000).toFixed(1) + 'k' : v); }
             }
           }
         }
@@ -589,32 +473,19 @@
     });
   }
 
-    function fmtData(iso) {
-    var d = new Date(iso + 'T12:00:00');
-    return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0');
-  }
-
   window.renderAll = function() {
     fator = parseFloat(document.getElementById('fatorHora').value) || 0;
     var periodo = getPeriodo();
     var filtroHoras = getFiltroHoras();
 
-    var horasPeriodo = appData.horas.filter(function(h) {
-      return h.data >= periodo.inicio && h.data <= periodo.fim;
-    });
+    var horasPeriodo = appData.horas.filter(function(h) { return h.data >= periodo.inicio && h.data <= periodo.fim; });
+    var receitasPeriodo = appData.receitas.filter(function(r) { return r.data >= periodo.inicio && r.data <= periodo.fim; });
+    var despesasPeriodo = appData.despesas.filter(function(d) { return d.data >= periodo.inicio && d.data <= periodo.fim; });
 
-    var receitasPeriodo = appData.receitas.filter(function(r) {
-      return r.data >= periodo.inicio && r.data <= periodo.fim;
-    });
-
-    var despesasPeriodo = appData.despesas.filter(function(d) {
-      return d.data >= periodo.inicio && d.data <= periodo.fim;
-    });
-
-    var totalHorasDec = horasPeriodo.reduce(function(s, h) { return s + h.horas; }, 0);
+    var totalHorasDec = horasPeriodo.reduce(function(s,h) { return s + h.horas; }, 0);
     var totalHorasVal = totalHorasDec * fator;
-    var totalReceitas = receitasPeriodo.reduce(function(s, r) { return s + r.valor; }, 0);
-    var totalDespesas = despesasPeriodo.reduce(function(s, d) { return s + d.valor; }, 0);
+    var totalReceitas = receitasPeriodo.reduce(function(s,r) { return s + r.valor; }, 0);
+    var totalDespesas = despesasPeriodo.reduce(function(s,d) { return s + d.valor; }, 0);
     var totalGanho = totalHorasVal + totalReceitas;
     var saldo = totalGanho - totalDespesas;
     var dias = horasPeriodo.filter(function(h) { return h.horas > 0; }).length;
@@ -622,34 +493,29 @@
     document.getElementById('r-ganho').textContent = fmtBRL(totalGanho);
     document.getElementById('r-contas').textContent = fmtBRL(totalDespesas);
     document.getElementById('r-saldo').textContent = fmtBRL(saldo);
-    document.getElementById('r-horas-val').textContent = fmtBRL(totalHorasVal);
-    document.getElementById('r-receitas-val').textContent = fmtBRL(totalReceitas);
-    document.getElementById('r-despesas-val').textContent = fmtBRL(totalDespesas);
     document.getElementById('r-total-h').textContent = fmtH(totalHorasDec);
     document.getElementById('r-dias').textContent = dias;
     document.getElementById('r-media').textContent = dias > 0 ? fmtH(totalHorasDec / dias) : '0h';
-
-    var sc = document.getElementById('r-saldo-card');
-    sc.className = 'resumo-card saldo ' + (saldo >= 0 ? 'pos' : 'neg');
+    document.getElementById('r-saldo-card').className = 'resumo-card saldo ' + (saldo >= 0 ? 'pos' : 'neg');
 
     renderGrafico(totalHorasVal, totalReceitas, totalDespesas);
 
-    // Detalhamento receitas no resumo
+    // Detalhamento receitas
     var drEl = document.getElementById('r-detalhe-receitas');
-    var recItems = [];
+    var recRows = [];
     if (totalHorasVal > 0) {
-      recItems.push('<div class="card-row"><div class="info"><div class="name">Horas trabalhadas</div><div class="sub">' + fmtH(totalHorasDec) + '</div></div><div class="amount pos">' + fmtBRL(totalHorasVal) + '</div></div>');
+      recRows.push('<div class="card-row"><div class="info"><div class="name">Horas trabalhadas</div><div class="sub">' + fmtH(totalHorasDec) + '</div></div><div class="amount pos">' + fmtBRL(totalHorasVal) + '</div></div>');
     }
     receitasPeriodo.forEach(function(r) {
-      recItems.push('<div class="card-row"><div class="info"><div class="name">' + r.nome + '</div></div><div class="amount pos">' + fmtBRL(r.valor) + '</div></div>');
+      recRows.push('<div class="card-row"><div class="info"><div class="name">' + r.nome + '</div></div><div class="amount pos">' + fmtBRL(r.valor) + '</div></div>');
     });
-    if (recItems.length === 0) {
+    if (recRows.length === 0) {
       drEl.innerHTML = '<div class="empty">Nenhuma receita no per&#237;odo</div>';
     } else {
-      drEl.innerHTML = recItems.join('') + '<div class="total-row green"><span>Total</span><span>' + fmtBRL(totalGanho) + '</span></div>';
+      drEl.innerHTML = recRows.join('') + '<div class="total-row green"><span>Total</span><span>' + fmtBRL(totalGanho) + '</span></div>';
     }
 
-    // Detalhamento despesas no resumo
+    // Detalhamento despesas
     var ddEl = document.getElementById('r-detalhe-despesas');
     if (despesasPeriodo.length === 0) {
       ddEl.innerHTML = '<div class="empty">Nenhuma despesa no per&#237;odo</div>';
@@ -660,67 +526,42 @@
       ddEl.innerHTML = despRows + '<div class="total-row red"><span>Total</span><span>' + fmtBRL(totalDespesas) + '</span></div>';
     }
 
-    // Lista horas - filtrada pelo filtro da semana
-    var horasVisiveis = appData.horas.filter(function(h) {
-      return h.data >= filtroHoras.inicio && h.data <= filtroHoras.fim;
-    });
-
+    // Lista horas (filtro semana)
+    var horasVisiveis = appData.horas.filter(function(h) { return h.data >= filtroHoras.inicio && h.data <= filtroHoras.fim; });
     var lh = document.getElementById('lista-horas');
     if (!horasVisiveis.length) {
       lh.innerHTML = '<div class="empty">Nenhum dia neste per&#237;odo</div>';
     } else {
-      var totalDecFiltro = horasVisiveis.reduce(function(s, h) { return s + h.horas; }, 0);
-      var totalValFiltro = totalDecFiltro * fator;
+      var totalDecFiltro = horasVisiveis.reduce(function(s,h) { return s + h.horas; }, 0);
       var rows = horasVisiveis.map(function(h) {
-        var idxGlobal = appData.horas.indexOf(h);
-        return '<div class="card-row">'
-          + '<div class="date-badge">' + fmtData(h.data) + '</div>'
-          + '<div class="info"><div class="name">' + fmtH(h.horas) + '</div><div class="sub">R$ ' + fator.toFixed(2) + '/h</div></div>'
-          + '<div class="amount pos">' + fmtBRL(h.horas * fator) + '</div>'
-          + '<button class="del-btn" onclick="removeHora(' + idxGlobal + ')">&#215;</button>'
-          + '</div>';
+        var idx = appData.horas.indexOf(h);
+        return '<div class="card-row"><div class="date-badge">' + fmtData(h.data) + '</div><div class="info"><div class="name">' + fmtH(h.horas) + '</div><div class="sub">R$ ' + fator.toFixed(2) + '/h</div></div><div class="amount pos">' + fmtBRL(h.horas * fator) + '</div><button class="del-btn" onclick="removeHora(' + idx + ')">&#215;</button></div>';
       }).join('');
-      lh.innerHTML = '<div class="card">' + rows
-        + '<div class="total-row green"><span>Total</span><span>' + fmtH(totalDecFiltro) + ' = ' + fmtBRL(totalValFiltro) + '</span></div>'
-        + '</div>';
+      lh.innerHTML = '<div class="card">' + rows + '<div class="total-row green"><span>Total</span><span>' + fmtH(totalDecFiltro) + ' = ' + fmtBRL(totalDecFiltro * fator) + '</span></div></div>';
     }
 
-    // Lista receitas - filtrada pelo periodo do header
+    // Lista receitas (filtro periodo)
     var lr = document.getElementById('lista-receitas');
     if (!receitasPeriodo.length) {
       lr.innerHTML = '<div class="empty">Nenhuma receita no per&#237;odo</div>';
     } else {
       var rrows = receitasPeriodo.map(function(r) {
-        var idxGlobal = appData.receitas.indexOf(r);
-        return '<div class="card-row">'
-          + '<div class="date-badge">' + fmtData(r.data) + '</div>'
-          + '<div class="info"><div class="name">' + r.nome + '</div></div>'
-          + '<div class="amount pos">' + fmtBRL(r.valor) + '</div>'
-          + '<button class="del-btn" onclick="removeReceita(' + idxGlobal + ')">&#215;</button>'
-          + '</div>';
+        var idx = appData.receitas.indexOf(r);
+        return '<div class="card-row"><div class="date-badge">' + fmtData(r.data) + '</div><div class="info"><div class="name">' + r.nome + '</div></div><div class="amount pos">' + fmtBRL(r.valor) + '</div><button class="del-btn" onclick="removeReceita(' + idx + ')">&#215;</button></div>';
       }).join('');
-      lr.innerHTML = '<div class="card">' + rrows
-        + '<div class="total-row green"><span>Total receitas</span><span>' + fmtBRL(totalReceitas) + '</span></div>'
-        + '</div>';
+      lr.innerHTML = '<div class="card">' + rrows + '<div class="total-row green"><span>Total</span><span>' + fmtBRL(totalReceitas) + '</span></div></div>';
     }
 
-    // Lista despesas - filtrada pelo periodo do header
+    // Lista despesas (filtro periodo)
     var ld = document.getElementById('lista-despesas');
     if (!despesasPeriodo.length) {
       ld.innerHTML = '<div class="empty">Nenhuma despesa no per&#237;odo</div>';
     } else {
       var drows = despesasPeriodo.map(function(d) {
-        var idxGlobal = appData.despesas.indexOf(d);
-        return '<div class="card-row">'
-          + '<div class="date-badge">' + fmtData(d.data) + '</div>'
-          + '<div class="info"><div class="name">' + d.nome + '</div></div>'
-          + '<div class="amount neg">' + fmtBRL(d.valor) + '</div>'
-          + '<button class="del-btn" onclick="removeDespesa(' + idxGlobal + ')">&#215;</button>'
-          + '</div>';
+        var idx = appData.despesas.indexOf(d);
+        return '<div class="card-row"><div class="date-badge">' + fmtData(d.data) + '</div><div class="info"><div class="name">' + d.nome + '</div></div><div class="amount neg">' + fmtBRL(d.valor) + '</div><button class="del-btn" onclick="removeDespesa(' + idx + ')">&#215;</button></div>';
       }).join('');
-      ld.innerHTML = '<div class="card">' + drows
-        + '<div class="total-row red"><span>Total despesas</span><span>' + fmtBRL(totalDespesas) + '</span></div>'
-        + '</div>';
+      ld.innerHTML = '<div class="card">' + drows + '<div class="total-row red"><span>Total</span><span>' + fmtBRL(totalDespesas) + '</span></div></div>';
     }
   };
 
@@ -732,7 +573,7 @@
     root.style.display = 'flex';
     document.getElementById('periodoInicio').value = defaultInicio();
     document.getElementById('periodoFim').value = defaultFim();
-    document.getElementById('horasFiltroInicio').value = segundaFeiraDaSemana();
+    document.getElementById('horasFiltroInicio').value = segundaFeira();
     document.getElementById('horasFiltroFim').value = hoje();
     document.getElementById('h-data').value = hoje();
     document.getElementById('rec-data').value = hoje();
