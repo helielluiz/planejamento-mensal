@@ -639,5 +639,10 @@
   }
 </script>
 
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/planejamento-mensal/sw.js');
+    }
+  </script>
 </body>
 </html>

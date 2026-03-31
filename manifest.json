@@ -1,8 +1,9 @@
 {
   "name": "Planejamento Mensal",
-  "short_name": "Planejamento",
+  "short_name": "HSPlan",
   "description": "Controle mensal de horas, receitas e despesas",
-  "start_url": "/",
+  "start_url": "/planejamento-mensal/",
+  "scope": "/planejamento-mensal/",
   "display": "standalone",
   "background_color": "#1D9E75",
   "theme_color": "#1D9E75",
