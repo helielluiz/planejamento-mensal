@@ -264,16 +264,20 @@
   let isSaving = false;
 
   function defaultInicio() {
-    const d = new Date(); d.setDa    T')[0];
+    const d = new Date(); d.setDate(1);
+    return d.toISOString().split('T')[0];
   }
-  function d    Date().getFullYear(), new D    OString().split('T')[0];i    o() {
+  function defaultFim() {
+    const d = new Date(new Date().getFullYear(), new Date().getMonth()+1, 0);
+    return d.toISOString().split('T')[0];
+  }
+  function getPeriodo() {
     return {
-      inicio: document.getElementById('periodoInicio').value || defaultIn    io(),
+      inicio: document.getElementById('periodoInicio').value || defaultInicio(),
       fim: document.getElementById('periodoFim').value || defaultFim()
     };
   }
 
-  // ─── Firebase Config (pré-configurado) ────────────────────────
   const FIREBASE_CONFIG = {
     apiKey: "AIzaSyB5Zx1KgRQibhGVciG7C0bzKq4Esul68ps",
     authDomain: "planejamento-mensal-be519.firebaseapp.com",
@@ -294,7 +298,6 @@
     }
   }
 
-  // ─── App Init ──────────────────────────────────────────────────
   initFirebase(FIREBASE_CONFIG);
 
   function showApp() {
@@ -303,12 +306,11 @@
     root.style.display = 'flex';
     root.style.flexDirection = 'column';
     document.getElementById('periodoInicio').value = defaultInicio();
-    document.getElementById('periodoFim').value  = defaultFim();
+    document.getElementById('periodoFim').value = defaultFim();
     document.getElementById('h-data').value = new Date().toISOString().split('T')[0];
     loadFator();
   }
 
-  // ─── Firestore ─────────────────────────────────────────────────
   function docRef() {
     return doc(db, 'planejamento', 'dados');
   }
@@ -345,7 +347,6 @@
 
   window.onPeriodoChange = function() { renderAll(); };
 
-  // ─── Fator ─────────────────────────────────────────────────────
   function loadFator() {
     fator = parseFloat(localStorage.getItem('fator_hora')) || 0;
     document.getElementById('fatorHora').value = fator || '';
@@ -357,7 +358,6 @@
     renderAll();
   };
 
-  // ─── Tabs ──────────────────────────────────────────────────────
   window.showTab = function(tab) {
     document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
@@ -367,9 +367,7 @@
     document.getElementById('mainContent').scrollTop = 0;
   };
 
-  // ─── Month Nav removido: substituído por seletor de período ───
 
-  // ─── Actions ───────────────────────────────────────────────────
   function parseHoras(str) {
     str = str.trim().replace(',', '.');
     const val = parseFloat(str);
@@ -428,7 +426,6 @@
     saveToFirebase(); renderAll();
   };
 
-  // ─── Render ────────────────────────────────────────────────────
   function fmtBRL(v) {
     return 'R$ ' + Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
@@ -440,17 +437,17 @@
 
   function renderAll() {
     fator = parseFloat(document.getElementById('fatorHora').value) || 0;
-    const { inicio,  fim }        etPeriodo();
+    const { inicio, fim } = getPeriodo();
 
-    // Filtra horas pelo período         cionado
-    const horasFiltrada        appData.horas.filter(h => h.dat      >= i      cio && h.data <= fim);
-    const totalHorasDec = horasFiltradas.red      e((s,h) => s + h.horas, 0);
+    // Filtra horas pelo período selecionado
+    const horasFiltradas = appData.horas.filter(h => h.data >= inicio && h.data <= fim);
+    const totalHorasDec = horasFiltradas.reduce((s,h) => s + h.horas, 0);
     const totalHorasVal = totalHorasDec * fator;
     const totalReceitas = appData.receitas.reduce((s,r) => s + r.valor, 0);
     const totalDespesas = appData.despesas.reduce((s,d) => s + d.valor, 0);
     const totalGanho = totalHorasVal + totalReceitas;
     const saldo = totalGanho - totalDespesas;
-    const        s = horasFiltradas.filter(h => h.horas > 0).length;
+    const dias = horasFiltradas.filter(h => h.horas > 0).length;
 
     document.getElementById('r-ganho').textContent = fmtBRL(totalGanho);
     document.getElementById('r-contas').textContent = fmtBRL(totalDespesas);
@@ -480,7 +477,7 @@
           <button class="del-btn" onclick="removeHora(${i})">×</button>
         </div>`;
       }).join('') +
-      `<div class="total-row green"><span>No período</span><span>${fmtH(totalHorasDec)} = $ {fmtBRL(totalHorasVal)}</span></ d iv></div>`;
+      `<div class="total-row green"><span>No período</span><span>${fmtH(totalHorasDec)} = ${fmtBRL(totalHorasVal)}</span></div></div>`;
     }
 
     // Receitas
@@ -504,7 +501,6 @@
     }
   }
 
-  // ─── Helpers ───────────────────────────────────────────────────
   function setSyncStatus(state, text) {
     const dot = document.getElementById('syncDot');
     const lbl = document.getElementById('syncLabel');
