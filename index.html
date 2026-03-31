@@ -434,17 +434,34 @@
     var ctx = document.getElementById('graficoResumo').getContext('2d');
     if (graficoInstance) { graficoInstance.destroy(); }
     graficoInstance = new Chart(ctx, {
-      type: 'bar',
+      type: 'line',
       data: {
         labels: ['Horas', 'Receitas', 'Despesas'],
-        datasets: [{
-          data: [totalHorasVal, totalReceitas, totalDespesas],
-          backgroundColor: ['rgba(29,158,117,0.85)', 'rgba(24,95,165,0.85)', 'rgba(226,75,74,0.85)'],
-          borderColor: ['#1D9E75', '#185FA5', '#E24B4A'],
-          borderWidth: 1.5,
-          borderRadius: 6,
-          barThickness: 48
-        }]
+        datasets: [
+          {
+            label: 'Valor',
+            data: [totalHorasVal, totalReceitas, totalDespesas],
+            borderColor: function(ctx) {
+              var colors = ['#1D9E75', '#185FA5', '#E24B4A'];
+              return colors;
+            },
+            segment: {
+              borderColor: function(ctx) {
+                var vals = [totalHorasVal, totalReceitas, totalDespesas];
+                return ctx.p1DataIndex <= 1 ? '#185FA5' : '#E24B4A';
+              }
+            },
+            pointBackgroundColor: ['#1D9E75', '#185FA5', '#E24B4A'],
+            pointBorderColor: ['#1D9E75', '#185FA5', '#E24B4A'],
+            pointRadius: 7,
+            pointHoverRadius: 9,
+            borderColor: '#aaa',
+            borderWidth: 2,
+            borderDash: [5, 4],
+            tension: 0.3,
+            fill: false
+          }
+        ]
       },
       options: {
         responsive: true,
@@ -453,6 +470,7 @@
           legend: { display: false },
           tooltip: {
             callbacks: {
+              title: function(items) { return items[0].label; },
               label: function(ctx) {
                 return 'R$ ' + Number(ctx.raw).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
               }
