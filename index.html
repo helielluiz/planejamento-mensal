@@ -227,21 +227,7 @@
           <div class="value" id="r-saldo">R$ 0</div>
         </div>
       </div>
-      <div class="section-title">Detalhamento</div>
-      <div class="card">
-        <div class="card-row">
-          <div class="info"><div class="name">Horas trabalhadas</div></div>
-          <div class="amount pos" id="r-horas-val">R$ 0</div>
-        </div>
-        <div class="card-row">
-          <div class="info"><div class="name">Outras receitas</div></div>
-          <div class="amount pos" id="r-receitas-val">R$ 0</div>
-        </div>
-        <div class="card-row">
-          <div class="info"><div class="name">Total despesas</div></div>
-          <div class="amount neg" id="r-despesas-val">R$ 0</div>
-        </div>
-      </div>
+
       <div class="section-title">Horas no per&#237;odo</div>
       <div class="horas-grid">
         <div class="ht-card">
@@ -257,13 +243,24 @@
           <div class="val" id="r-media">0h</div>
         </div>
       </div>
-      <div class="section-title">Receitas vs Despesas</div>
+
+      <div class="section-title">Ganhos vs Despesas</div>
       <div class="chart-card">
-        <canvas id="graficoResumo" height="200"></canvas>
+        <canvas id="graficoResumo" height="160"></canvas>
         <div class="chart-legend">
-          <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div>Receitas + Horas</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div>Ganhos</div>
           <div class="legend-item"><div class="legend-dot" style="background:#E24B4A"></div>Despesas</div>
         </div>
+      </div>
+
+      <div class="section-title">Detalhamento de receitas</div>
+      <div class="card" id="r-detalhe-receitas">
+        <div class="empty">Nenhuma receita no per&#237;odo</div>
+      </div>
+
+      <div class="section-title">Detalhamento de despesas</div>
+      <div class="card" id="r-detalhe-despesas">
+        <div class="empty">Nenhuma despesa no per&#237;odo</div>
       </div>
     </div>
 
@@ -534,75 +531,31 @@
 
   var graficoInstance = null;
 
-  function renderGrafico(periodo, horasPeriodo, receitasPeriodo, despesasPeriodo, totalHorasVal) {
-    // Grafico de linhas por item (nome) x valor
-    // Receitas: cada receita e um ponto, + "Horas" como item especial
-    // Despesas: cada despesa e um ponto
-
-    var labelsRec = [];
-    var valoresRec = [];
-
-    // Horas como primeiro item de ganho
-    if (totalHorasVal > 0) {
-      labelsRec.push('Horas');
-      valoresRec.push(totalHorasVal);
-    }
-    receitasPeriodo.forEach(function(r) {
-      labelsRec.push(r.nome);
-      valoresRec.push(r.valor);
-    });
-
-    var labelsDesp = [];
-    var valoresDesp = [];
-    despesasPeriodo.forEach(function(d) {
-      labelsDesp.push(d.nome);
-      valoresDesp.push(d.valor);
-    });
-
-    // Une todos os labels para eixo X comum
-    var todosLabels = [];
-    labelsRec.forEach(function(l) { if (!todosLabels.includes(l)) todosLabels.push(l); });
-    labelsDesp.forEach(function(l) { if (!todosLabels.includes(l)) todosLabels.push(l); });
-
-    var dataRec = todosLabels.map(function(l) {
-      var idx = labelsRec.indexOf(l);
-      return idx >= 0 ? valoresRec[idx] : null;
-    });
-    var dataDesp = todosLabels.map(function(l) {
-      var idx = labelsDesp.indexOf(l);
-      return idx >= 0 ? valoresDesp[idx] : null;
-    });
-
+  function renderGrafico(totalHorasVal, totalReceitas, totalDespesas) {
     var ctx = document.getElementById('graficoResumo').getContext('2d');
     if (graficoInstance) { graficoInstance.destroy(); }
+
+    var labels = ['Horas', 'Receitas', 'Despesas'];
+    var valores = [totalHorasVal, totalReceitas, totalDespesas];
+    var cores = [
+      'rgba(29,158,117,0.85)',
+      'rgba(24,95,165,0.85)',
+      'rgba(226,75,74,0.85)'
+    ];
+    var coresBorda = ['#1D9E75','#185FA5','#E24B4A'];
+
     graficoInstance = new Chart(ctx, {
-      type: 'line',
+      type: 'bar',
       data: {
-        labels: todosLabels,
-        datasets: [
-          {
-            label: 'Receitas / Horas',
-            data: dataRec,
-            borderColor: '#1D9E75',
-            backgroundColor: 'rgba(29,158,117,0.1)',
-            pointBackgroundColor: '#1D9E75',
-            pointRadius: 5,
-            pointHoverRadius: 7,
-            tension: 0.3,
-            spanGaps: false
-          },
-          {
-            label: 'Despesas',
-            data: dataDesp,
-            borderColor: '#E24B4A',
-            backgroundColor: 'rgba(226,75,74,0.1)',
-            pointBackgroundColor: '#E24B4A',
-            pointRadius: 5,
-            pointHoverRadius: 7,
-            tension: 0.3,
-            spanGaps: false
-          }
-        ]
+        labels: labels,
+        datasets: [{
+          data: valores,
+          backgroundColor: cores,
+          borderColor: coresBorda,
+          borderWidth: 1.5,
+          borderRadius: 6,
+          barThickness: 48
+        }]
       },
       options: {
         responsive: true,
@@ -612,8 +565,7 @@
           tooltip: {
             callbacks: {
               label: function(ctx) {
-                if (ctx.raw === null) return null;
-                return ctx.dataset.label + ': R$ ' + Number(ctx.raw).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+                return 'R$ ' + Number(ctx.raw).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
               }
             }
           }
@@ -621,17 +573,15 @@
         scales: {
           x: {
             grid: { display: false },
-            ticks: {
-              font: { size: 10 },
-              maxRotation: 45,
-              minRotation: 30
-            }
+            ticks: { font: { size: 13 }, color: '#444' }
           },
           y: {
             grid: { color: '#f0f0f0' },
             ticks: {
-              font: { size: 10 },
-              callback: function(v) { return 'R$' + (v >= 1000 ? (v/1000).toFixed(1)+'k' : v); }
+              font: { size: 11 },
+              callback: function(v) {
+                return 'R$' + (v >= 1000 ? (v/1000).toFixed(1)+'k' : v);
+              }
             }
           }
         }
@@ -639,7 +589,7 @@
     });
   }
 
-  function fmtData(iso) {
+    function fmtData(iso) {
     var d = new Date(iso + 'T12:00:00');
     return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0');
   }
@@ -682,7 +632,33 @@
     var sc = document.getElementById('r-saldo-card');
     sc.className = 'resumo-card saldo ' + (saldo >= 0 ? 'pos' : 'neg');
 
-    renderGrafico(periodo, horasPeriodo, receitasPeriodo, despesasPeriodo, totalHorasVal);
+    renderGrafico(totalHorasVal, totalReceitas, totalDespesas);
+
+    // Detalhamento receitas no resumo
+    var drEl = document.getElementById('r-detalhe-receitas');
+    var recItems = [];
+    if (totalHorasVal > 0) {
+      recItems.push('<div class="card-row"><div class="info"><div class="name">Horas trabalhadas</div><div class="sub">' + fmtH(totalHorasDec) + '</div></div><div class="amount pos">' + fmtBRL(totalHorasVal) + '</div></div>');
+    }
+    receitasPeriodo.forEach(function(r) {
+      recItems.push('<div class="card-row"><div class="info"><div class="name">' + r.nome + '</div></div><div class="amount pos">' + fmtBRL(r.valor) + '</div></div>');
+    });
+    if (recItems.length === 0) {
+      drEl.innerHTML = '<div class="empty">Nenhuma receita no per&#237;odo</div>';
+    } else {
+      drEl.innerHTML = recItems.join('') + '<div class="total-row green"><span>Total</span><span>' + fmtBRL(totalGanho) + '</span></div>';
+    }
+
+    // Detalhamento despesas no resumo
+    var ddEl = document.getElementById('r-detalhe-despesas');
+    if (despesasPeriodo.length === 0) {
+      ddEl.innerHTML = '<div class="empty">Nenhuma despesa no per&#237;odo</div>';
+    } else {
+      var despRows = despesasPeriodo.map(function(d) {
+        return '<div class="card-row"><div class="info"><div class="name">' + d.nome + '</div></div><div class="amount neg">' + fmtBRL(d.valor) + '</div></div>';
+      }).join('');
+      ddEl.innerHTML = despRows + '<div class="total-row red"><span>Total</span><span>' + fmtBRL(totalDespesas) + '</span></div>';
+    }
 
     // Lista horas - filtrada pelo filtro da semana
     var horasVisiveis = appData.horas.filter(function(h) {
