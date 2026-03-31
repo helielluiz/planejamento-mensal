@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "io.github.helielluiz.hsplan",
+    "sha256_cert_fingerprints": [
+      "B0:B0:3F:1E:94:BE:10:28:A2:D7:0B:56:28:C4:C4:52:79:F3:19:5E:88:32:56:DD:BB:1D:1D:1E:59:A0:C3:4C"
+    ]
+  }
+}]
