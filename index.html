@@ -237,6 +237,17 @@
         </div>
         <button class="add-btn" onclick="addReceita()">+ Adicionar receita</button>
       </div>
+      <div class="filtro-semana">
+        <div class="filtro-field">
+          <label>Exibir de</label>
+          <input type="date" id="recFiltroInicio" class="field-input" onchange="renderAll()">
+        </div>
+        <div class="filtro-sep">&#8594;</div>
+        <div class="filtro-field">
+          <label>At&#233;</label>
+          <input type="date" id="recFiltroFim" class="field-input" onchange="renderAll()">
+        </div>
+      </div>
       <div id="lista-receitas"></div>
     </div>
 
@@ -249,6 +260,17 @@
           <input type="number" id="desp-valor" class="field-input" placeholder="Valor R$" min="0" step="0.01" inputmode="decimal">
         </div>
         <button class="add-btn" onclick="addDespesa()">+ Adicionar despesa</button>
+      </div>
+      <div class="filtro-semana">
+        <div class="filtro-field">
+          <label>Exibir de</label>
+          <input type="date" id="despFiltroInicio" class="field-input" onchange="renderAll()">
+        </div>
+        <div class="filtro-sep">&#8594;</div>
+        <div class="filtro-field">
+          <label>At&#233;</label>
+          <input type="date" id="despFiltroFim" class="field-input" onchange="renderAll()">
+        </div>
       </div>
       <div id="lista-despesas"></div>
     </div>
@@ -295,6 +317,18 @@
     return {
       inicio: document.getElementById('horasFiltroInicio').value || segundaFeira(),
       fim: document.getElementById('horasFiltroFim').value || hoje()
+    };
+  }
+  function getFiltroReceitas() {
+    return {
+      inicio: document.getElementById('recFiltroInicio').value || defaultInicio(),
+      fim: document.getElementById('recFiltroFim').value || defaultFim()
+    };
+  }
+  function getFiltroDespesas() {
+    return {
+      inicio: document.getElementById('despFiltroInicio').value || defaultInicio(),
+      fim: document.getElementById('despFiltroFim').value || defaultFim()
     };
   }
 
@@ -548,28 +582,34 @@
       lh.innerHTML = '<div class="card">' + rows + '<div class="total-row green"><span>Total</span><span>' + fmtH(totalDecFiltro) + ' = ' + fmtBRL(totalDecFiltro * fator) + '</span></div></div>';
     }
 
-    // Lista receitas (filtro periodo)
+    // Lista receitas (filtro proprio da aba)
+    var filtroRec = getFiltroReceitas();
+    var receitasVisiveis = appData.receitas.filter(function(r) { return r.data >= filtroRec.inicio && r.data <= filtroRec.fim; });
+    var totalRecVisiveis = receitasVisiveis.reduce(function(s,r) { return s + r.valor; }, 0);
     var lr = document.getElementById('lista-receitas');
-    if (!receitasPeriodo.length) {
-      lr.innerHTML = '<div class="empty">Nenhuma receita no per&#237;odo</div>';
+    if (!receitasVisiveis.length) {
+      lr.innerHTML = '<div class="empty">Nenhuma receita neste per&#237;odo</div>';
     } else {
-      var rrows = receitasPeriodo.map(function(r) {
+      var rrows = receitasVisiveis.map(function(r) {
         var idx = appData.receitas.indexOf(r);
         return '<div class="card-row"><div class="date-badge">' + fmtData(r.data) + '</div><div class="info"><div class="name">' + r.nome + '</div></div><div class="amount pos">' + fmtBRL(r.valor) + '</div><button class="del-btn" onclick="removeReceita(' + idx + ')">&#215;</button></div>';
       }).join('');
-      lr.innerHTML = '<div class="card">' + rrows + '<div class="total-row green"><span>Total</span><span>' + fmtBRL(totalReceitas) + '</span></div></div>';
+      lr.innerHTML = '<div class="card">' + rrows + '<div class="total-row green"><span>Total</span><span>' + fmtBRL(totalRecVisiveis) + '</span></div></div>';
     }
 
-    // Lista despesas (filtro periodo)
+    // Lista despesas (filtro proprio da aba)
+    var filtroDesp = getFiltroDespesas();
+    var despesasVisiveis = appData.despesas.filter(function(d) { return d.data >= filtroDesp.inicio && d.data <= filtroDesp.fim; });
+    var totalDespVisiveis = despesasVisiveis.reduce(function(s,d) { return s + d.valor; }, 0);
     var ld = document.getElementById('lista-despesas');
-    if (!despesasPeriodo.length) {
-      ld.innerHTML = '<div class="empty">Nenhuma despesa no per&#237;odo</div>';
+    if (!despesasVisiveis.length) {
+      ld.innerHTML = '<div class="empty">Nenhuma despesa neste per&#237;odo</div>';
     } else {
-      var drows = despesasPeriodo.map(function(d) {
+      var drows = despesasVisiveis.map(function(d) {
         var idx = appData.despesas.indexOf(d);
         return '<div class="card-row"><div class="date-badge">' + fmtData(d.data) + '</div><div class="info"><div class="name">' + d.nome + '</div></div><div class="amount neg">' + fmtBRL(d.valor) + '</div><button class="del-btn" onclick="removeDespesa(' + idx + ')">&#215;</button></div>';
       }).join('');
-      ld.innerHTML = '<div class="card">' + drows + '<div class="total-row red"><span>Total</span><span>' + fmtBRL(totalDespesas) + '</span></div></div>';
+      ld.innerHTML = '<div class="card">' + drows + '<div class="total-row red"><span>Total</span><span>' + fmtBRL(totalDespVisiveis) + '</span></div></div>';
     }
   };
 
@@ -583,6 +623,10 @@
     document.getElementById('periodoFim').value = defaultFim();
     document.getElementById('horasFiltroInicio').value = segundaFeira();
     document.getElementById('horasFiltroFim').value = hoje();
+    document.getElementById('recFiltroInicio').value = defaultInicio();
+    document.getElementById('recFiltroFim').value = defaultFim();
+    document.getElementById('despFiltroInicio').value = defaultInicio();
+    document.getElementById('despFiltroFim').value = defaultFim();
     document.getElementById('h-data').value = hoje();
     document.getElementById('rec-data').value = hoje();
     document.getElementById('desp-data').value = hoje();
