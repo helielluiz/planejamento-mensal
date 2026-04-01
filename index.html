@@ -145,6 +145,30 @@
   </div>
 </div>
 
+<!-- LOGIN -->
+<div id="loginScreen" style="display:none; position:fixed; inset:0; background:var(--accent); z-index:9998; flex-direction:column; align-items:center; justify-content:center; padding:32px;">
+  <div style="font-size:56px; margin-bottom:8px;">&#128197;</div>
+  <div style="color:white; font-size:22px; font-weight:700; margin-bottom:4px;">Planejamento Mensal</div>
+  <div style="color:rgba(255,255,255,0.7); font-size:13px; margin-bottom:32px;">Acesso restrito</div>
+  <div style="background:white; border-radius:16px; padding:24px; width:100%; max-width:340px;">
+    <div id="loginError" style="display:none; background:#FCEBEB; color:#E24B4A; border-radius:8px; padding:10px 14px; font-size:13px; margin-bottom:14px; text-align:center;"></div>
+    <div style="margin-bottom:12px;">
+      <label style="font-size:12px; font-weight:600; color:#666; text-transform:uppercase; letter-spacing:0.5px;">Usu&#225;rio</label>
+      <input id="loginUser" type="text" autocomplete="off" autocapitalize="none" placeholder="Digite seu usu&#225;rio"
+        style="width:100%; margin-top:6px; padding:12px; border:1.5px solid #e0e0e0; border-radius:8px; font-size:16px; font-family:inherit; outline:none; background:#f4f6f8; color:#1a1a1a;">
+    </div>
+    <div style="margin-bottom:20px;">
+      <label style="font-size:12px; font-weight:600; color:#666; text-transform:uppercase; letter-spacing:0.5px;">Senha</label>
+      <input id="loginPass" type="password" autocomplete="current-password" placeholder="Digite sua senha"
+        style="width:100%; margin-top:6px; padding:12px; border:1.5px solid #e0e0e0; border-radius:8px; font-size:16px; font-family:inherit; outline:none; background:#f4f6f8; color:#1a1a1a;">
+    </div>
+    <button onclick="doLogin()"
+      style="width:100%; padding:14px; background:#1D9E75; color:white; border:none; border-radius:10px; font-size:16px; font-weight:700; cursor:pointer; font-family:inherit;">
+      Entrar
+    </button>
+  </div>
+</div>
+
 <div id="appRoot" style="display:none; flex-direction:column; min-height:100vh; overflow-x:hidden;">
   <div class="header">
     <div class="header-top">
@@ -634,9 +658,46 @@
       }).join('')+'<div class="total-row red"><span>Total</span><span>'+fmtBRL(totalDespVis)+'</span></div><div class="total-row blue"><span>Pagas</span><span>'+fmtBRL(totalPagasVis)+'</span></div></div>';
   };
 
-  try {
-    var app = initializeApp(FIREBASE_CONFIG);
-    db = getFirestore(app);
+  // LOGIN
+  var USERS = {
+    'HELIEL': 'heliel124@',
+    'SABRINA': 'laudelina6'
+  };
+
+  function checkLogin() {
+    return localStorage.getItem('hs_logged') === 'true';
+  }
+
+  window.doLogin = function() {
+    var user = document.getElementById('loginUser').value.trim().toUpperCase();
+    var pass = document.getElementById('loginPass').value;
+    var errEl = document.getElementById('loginError');
+    if (USERS[user] && USERS[user] === pass) {
+      localStorage.setItem('hs_logged', 'true');
+      localStorage.setItem('hs_user', user);
+      document.getElementById('loginScreen').style.display = 'none';
+      startApp();
+    } else {
+      errEl.textContent = 'Usuário ou senha incorretos';
+      errEl.style.display = 'block';
+      document.getElementById('loginPass').value = '';
+    }
+  };
+
+  // Enter key on login
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && document.getElementById('loginScreen').style.display !== 'none') {
+      doLogin();
+    }
+  });
+
+  function showLogin() {
+    document.getElementById('loadingOverlay').classList.add('hidden');
+    document.getElementById('loginScreen').style.display = 'flex';
+  }
+
+  function startApp() {
+    var user = localStorage.getItem('hs_user') || '';
     document.getElementById('loadingOverlay').classList.add('hidden');
     var root = document.getElementById('appRoot');
     root.style.display = 'flex';
@@ -653,6 +714,16 @@
     document.getElementById('desp-data').value = hoje();
     loadFator();
     subscribeData();
+  }
+
+  try {
+    var app = initializeApp(FIREBASE_CONFIG);
+    db = getFirestore(app);
+    if (checkLogin()) {
+      startApp();
+    } else {
+      showLogin();
+    }
   } catch(e) {
     setSyncStatus('error','Erro Firebase');
     document.getElementById('loadingOverlay').classList.add('hidden');
