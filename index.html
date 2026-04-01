@@ -15,24 +15,11 @@
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f4f6f8; color: #1a1a1a; }
     :root {
-      --accent: #1D9E75;
-      --accent-light: #E1F5EE;
-      --accent-dark: #0F6E56;
-      --danger: #E24B4A;
-      --danger-light: #FCEBEB;
-      --blue: #185FA5;
-      --blue-light: #E6F1FB;
-      --gray: #f4f6f8;
-      --border: #e0e0e0;
-      --text: #1a1a1a;
-      --text-muted: #666;
+      --accent: #1D9E75; --accent-light: #E1F5EE; --accent-dark: #0F6E56;
+      --danger: #E24B4A; --danger-light: #FCEBEB;
+      --gray: #f4f6f8; --border: #e0e0e0; --text: #1a1a1a; --text-muted: #666;
     }
-    .header {
-      background: var(--accent);
-      color: white;
-      padding: 12px 16px 12px;
-      padding-top: calc(12px + env(safe-area-inset-top));
-    }
+    .header { background: var(--accent); color: white; padding: 12px 16px 12px; padding-top: calc(12px + env(safe-area-inset-top)); }
     .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
     .header h1 { font-size: 18px; font-weight: 600; }
     .sync-indicator { font-size: 11px; opacity: 0.85; display: flex; align-items: center; gap: 4px; }
@@ -43,11 +30,7 @@
     .periodo-row { display: flex; align-items: flex-end; gap: 8px; }
     .periodo-field { display: flex; flex-direction: column; flex: 1; gap: 3px; }
     .periodo-field label { font-size: 10px; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.5px; }
-    .periodo-field input[type="date"] {
-      background: rgba(255,255,255,0.2); border: none; color: white;
-      border-radius: 8px; padding: 8px 10px; font-size: 13px;
-      font-family: inherit; outline: none; width: 100%; color-scheme: dark;
-    }
+    .periodo-field input[type="date"] { background: rgba(255,255,255,0.2); border: none; color: white; border-radius: 8px; padding: 8px 10px; font-size: 13px; font-family: inherit; outline: none; width: 100%; color-scheme: dark; }
     .periodo-field input[type="date"]:focus { background: rgba(255,255,255,0.3); }
     .periodo-sep { color: rgba(255,255,255,0.6); font-size: 16px; padding-bottom: 8px; flex-shrink: 0; }
     .tabs { display: flex; background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
@@ -70,17 +53,20 @@
     .ht-card .val { font-size: 13px; font-weight: 700; color: var(--accent-dark); }
     .section-title { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin: 16px 0 8px; }
     .card { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 10px; overflow: hidden; }
-    .card-row { display: flex; align-items: center; padding: 11px 14px; gap: 8px; border-bottom: 1px solid #f0f0f0; }
+    .card-row { display: flex; align-items: center; padding: 10px 12px; gap: 6px; border-bottom: 1px solid #f0f0f0; }
     .card-row:last-child { border-bottom: none; }
     .card-row .date-badge { background: var(--gray); border-radius: 6px; padding: 3px 6px; font-size: 11px; font-weight: 600; color: var(--text-muted); min-width: 38px; text-align: center; flex-shrink: 0; }
     .card-row .info { flex: 1; min-width: 0; }
-    .card-row .info .name { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-row .info .name { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .card-row .info .sub { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-    .card-row .amount { font-size: 14px; font-weight: 600; white-space: nowrap; }
+    .card-row .amount { font-size: 13px; font-weight: 600; white-space: nowrap; }
     .card-row .amount.pos { color: var(--accent-dark); }
     .card-row .amount.neg { color: var(--danger); }
-    .card-row .del-btn { background: none; border: none; cursor: pointer; color: #ccc; font-size: 20px; padding: 0 0 0 6px; line-height: 1; flex-shrink: 0; }
-    .card-row .del-btn:active { color: var(--danger); }
+    .card-row .action-btns { display: flex; gap: 2px; flex-shrink: 0; }
+    .edit-btn { background: none; border: none; cursor: pointer; color: #999; font-size: 15px; padding: 2px 4px; line-height: 1; border-radius: 4px; }
+    .edit-btn:active { background: var(--accent-light); color: var(--accent-dark); }
+    .del-btn { background: none; border: none; cursor: pointer; color: #ccc; font-size: 18px; padding: 2px 4px; line-height: 1; border-radius: 4px; }
+    .del-btn:active { color: var(--danger); }
     .total-row { display: flex; justify-content: space-between; padding: 10px 14px; font-size: 13px; font-weight: 600; }
     .total-row.green { background: var(--accent-light); color: var(--accent-dark); }
     .total-row.red { background: var(--danger-light); color: var(--danger); }
@@ -93,12 +79,7 @@
     .fator-row label { font-size: 13px; color: var(--text-muted); flex-shrink: 0; white-space: nowrap; }
     .fator-row input { flex: 1; min-width: 0; }
     .form-col { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
-    .field-input {
-      width: 100%; padding: 12px 12px; border: 1.5px solid var(--border);
-      border-radius: 8px; font-size: 16px; background: var(--gray);
-      color: var(--text); font-family: inherit; outline: none;
-      transition: border-color 0.15s; -webkit-appearance: none; appearance: none;
-    }
+    .field-input { width: 100%; padding: 12px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 16px; background: var(--gray); color: var(--text); font-family: inherit; outline: none; transition: border-color 0.15s; -webkit-appearance: none; appearance: none; }
     .field-input:focus { border-color: var(--accent); background: white; }
     .filtro-semana { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 12px 14px; margin-bottom: 12px; display: flex; align-items: flex-end; gap: 8px; }
     .filtro-field { display: flex; flex-direction: column; flex: 1; gap: 4px; }
@@ -106,7 +87,7 @@
     .filtro-sep { color: var(--text-muted); font-size: 14px; padding-bottom: 12px; flex-shrink: 0; }
     .add-btn { width: 100%; padding: 14px; background: var(--accent); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.15s; touch-action: manipulation; }
     .add-btn:active { background: var(--accent-dark); transform: scale(0.98); }
-    .empty { text-align: center; padding: 24px 16px; color: var(--text-muted); font-size: 14px; }
+    .empty { text-align: center; padding: 32px 16px; color: var(--text-muted); font-size: 14px; }
     .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; z-index: 999; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
     .toast.show { opacity: 1; }
     .loading-overlay { position: fixed; inset: 0; background: var(--accent); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.4s; }
@@ -114,6 +95,18 @@
     .loading-logo { font-size: 48px; margin-bottom: 16px; }
     .loading-text { color: white; font-size: 18px; font-weight: 600; }
     .loading-sub { color: rgba(255,255,255,0.7); font-size: 13px; margin-top: 6px; }
+
+    /* MODAL */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal { background: white; border-radius: 20px 20px 0 0; padding: 20px 16px 32px; width: 100%; max-width: 520px; transform: translateY(100%); transition: transform 0.25s ease; }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--text); }
+    .modal-form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .modal-btns { display: flex; gap: 8px; }
+    .modal-btn-cancel { flex: 1; padding: 13px; background: var(--gray); color: var(--text-muted); border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+    .modal-btn-save { flex: 2; padding: 13px; background: var(--accent); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+    .modal-btn-save:active { background: var(--accent-dark); }
   </style>
 </head>
 <body>
@@ -124,8 +117,19 @@
   <div class="loading-sub">Conectando...</div>
 </div>
 
-<div id="appRoot" style="display:none; flex-direction:column; min-height:100vh; overflow-x:hidden;">
+<!-- MODAL DE EDICAO -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-title" id="modalTitle">Editar</div>
+    <div class="modal-form" id="modalForm"></div>
+    <div class="modal-btns">
+      <button class="modal-btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="modal-btn-save" onclick="saveEdit()">Salvar</button>
+    </div>
+  </div>
+</div>
 
+<div id="appRoot" style="display:none; flex-direction:column; min-height:100vh; overflow-x:hidden;">
   <div class="header">
     <div class="header-top">
       <h1>Planejamento Mensal</h1>
@@ -159,27 +163,16 @@
     <!-- RESUMO -->
     <div class="tab-pane active" id="tab-resumo">
       <div class="resumo-grid">
-        <div class="resumo-card ganho">
-          <div class="label">Total ganho</div>
-          <div class="value" id="r-ganho">R$ 0</div>
-        </div>
-        <div class="resumo-card contas">
-          <div class="label">Total contas</div>
-          <div class="value" id="r-contas">R$ 0</div>
-        </div>
-        <div class="resumo-card saldo" id="r-saldo-card">
-          <div class="label">Saldo</div>
-          <div class="value" id="r-saldo">R$ 0</div>
-        </div>
+        <div class="resumo-card ganho"><div class="label">Total ganho</div><div class="value" id="r-ganho">R$ 0</div></div>
+        <div class="resumo-card contas"><div class="label">Total contas</div><div class="value" id="r-contas">R$ 0</div></div>
+        <div class="resumo-card saldo" id="r-saldo-card"><div class="label">Saldo</div><div class="value" id="r-saldo">R$ 0</div></div>
       </div>
-
       <div class="section-title">Horas no per&#237;odo</div>
       <div class="horas-grid">
         <div class="ht-card"><div class="lbl">Total horas</div><div class="val" id="r-total-h">0h 0min</div></div>
         <div class="ht-card"><div class="lbl">Dias trabalhados</div><div class="val" id="r-dias">0</div></div>
         <div class="ht-card"><div class="lbl">M&#233;dia/dia</div><div class="val" id="r-media">0h</div></div>
       </div>
-
       <div class="section-title">Ganhos vs Despesas</div>
       <div class="chart-card">
         <canvas id="graficoResumo" height="160"></canvas>
@@ -188,16 +181,10 @@
           <div class="legend-item"><div class="legend-dot" style="background:#E24B4A"></div>Despesas</div>
         </div>
       </div>
-
       <div class="section-title">Detalhamento de receitas</div>
-      <div class="card" id="r-detalhe-receitas">
-        <div class="empty">Nenhuma receita no per&#237;odo</div>
-      </div>
-
+      <div class="card" id="r-detalhe-receitas"><div class="empty">Nenhuma receita no per&#237;odo</div></div>
       <div class="section-title">Detalhamento de despesas</div>
-      <div class="card" id="r-detalhe-despesas">
-        <div class="empty">Nenhuma despesa no per&#237;odo</div>
-      </div>
+      <div class="card" id="r-detalhe-despesas"><div class="empty">Nenhuma despesa no per&#237;odo</div></div>
     </div>
 
     <!-- HORAS -->
@@ -214,15 +201,9 @@
         <button class="add-btn" onclick="addHora()">+ Adicionar dia trabalhado</button>
       </div>
       <div class="filtro-semana">
-        <div class="filtro-field">
-          <label>Exibir de</label>
-          <input type="date" id="horasFiltroInicio" class="field-input" onchange="renderAll()">
-        </div>
+        <div class="filtro-field"><label>Exibir de</label><input type="date" id="horasFiltroInicio" class="field-input" onchange="renderAll()"></div>
         <div class="filtro-sep">&#8594;</div>
-        <div class="filtro-field">
-          <label>At&#233;</label>
-          <input type="date" id="horasFiltroFim" class="field-input" onchange="renderAll()">
-        </div>
+        <div class="filtro-field"><label>At&#233;</label><input type="date" id="horasFiltroFim" class="field-input" onchange="renderAll()"></div>
       </div>
       <div id="lista-horas"></div>
     </div>
@@ -238,15 +219,9 @@
         <button class="add-btn" onclick="addReceita()">+ Adicionar receita</button>
       </div>
       <div class="filtro-semana">
-        <div class="filtro-field">
-          <label>Exibir de</label>
-          <input type="date" id="recFiltroInicio" class="field-input" onchange="renderAll()">
-        </div>
+        <div class="filtro-field"><label>Exibir de</label><input type="date" id="recFiltroInicio" class="field-input" onchange="renderAll()"></div>
         <div class="filtro-sep">&#8594;</div>
-        <div class="filtro-field">
-          <label>At&#233;</label>
-          <input type="date" id="recFiltroFim" class="field-input" onchange="renderAll()">
-        </div>
+        <div class="filtro-field"><label>At&#233;</label><input type="date" id="recFiltroFim" class="field-input" onchange="renderAll()"></div>
       </div>
       <div id="lista-receitas"></div>
     </div>
@@ -262,15 +237,9 @@
         <button class="add-btn" onclick="addDespesa()">+ Adicionar despesa</button>
       </div>
       <div class="filtro-semana">
-        <div class="filtro-field">
-          <label>Exibir de</label>
-          <input type="date" id="despFiltroInicio" class="field-input" onchange="renderAll()">
-        </div>
+        <div class="filtro-field"><label>Exibir de</label><input type="date" id="despFiltroInicio" class="field-input" onchange="renderAll()"></div>
         <div class="filtro-sep">&#8594;</div>
-        <div class="filtro-field">
-          <label>At&#233;</label>
-          <input type="date" id="despFiltroFim" class="field-input" onchange="renderAll()">
-        </div>
+        <div class="filtro-field"><label>At&#233;</label><input type="date" id="despFiltroFim" class="field-input" onchange="renderAll()"></div>
       </div>
       <div id="lista-despesas"></div>
     </div>
@@ -295,50 +264,25 @@
   var appData = { horas: [], receitas: [], despesas: [] };
   var fator = 0;
   var graficoInstance = null;
+  var editState = { type: null, idx: null };
 
   function toISO(d) { return d.toISOString().split('T')[0]; }
   function hoje() { return toISO(new Date()); }
   function defaultInicio() { var d = new Date(); d.setDate(1); return toISO(d); }
   function defaultFim() { var n = new Date(); return toISO(new Date(n.getFullYear(), n.getMonth() + 1, 0)); }
-  function segundaFeira() {
-    var d = new Date();
-    var dia = d.getDay();
-    d.setDate(d.getDate() + (dia === 0 ? -6 : 1 - dia));
-    return toISO(d);
-  }
+  function segundaFeira() { var d = new Date(); var dia = d.getDay(); d.setDate(d.getDate() + (dia === 0 ? -6 : 1 - dia)); return toISO(d); }
 
-  function getPeriodo() {
-    return {
-      inicio: document.getElementById('periodoInicio').value || defaultInicio(),
-      fim: document.getElementById('periodoFim').value || defaultFim()
-    };
-  }
-  function getFiltroHoras() {
-    return {
-      inicio: document.getElementById('horasFiltroInicio').value || segundaFeira(),
-      fim: document.getElementById('horasFiltroFim').value || hoje()
-    };
-  }
-  function getFiltroReceitas() {
-    return {
-      inicio: document.getElementById('recFiltroInicio').value || defaultInicio(),
-      fim: document.getElementById('recFiltroFim').value || defaultFim()
-    };
-  }
-  function getFiltroDespesas() {
-    return {
-      inicio: document.getElementById('despFiltroInicio').value || defaultInicio(),
-      fim: document.getElementById('despFiltroFim').value || defaultFim()
-    };
-  }
+  function getPeriodo() { return { inicio: document.getElementById('periodoInicio').value || defaultInicio(), fim: document.getElementById('periodoFim').value || defaultFim() }; }
+  function getFiltroHoras() { return { inicio: document.getElementById('horasFiltroInicio').value || segundaFeira(), fim: document.getElementById('horasFiltroFim').value || hoje() }; }
+  function getFiltroReceitas() { return { inicio: document.getElementById('recFiltroInicio').value || defaultInicio(), fim: document.getElementById('recFiltroFim').value || defaultFim() }; }
+  function getFiltroDespesas() { return { inicio: document.getElementById('despFiltroInicio').value || defaultInicio(), fim: document.getElementById('despFiltroFim').value || defaultFim() }; }
 
   function docRef() { return doc(db, 'planejamento', 'dados'); }
 
   function setSyncStatus(state, text) {
     var dot = document.getElementById('syncDot');
-    var lbl = document.getElementById('syncLabel');
     dot.className = 'sync-dot' + (state === 'syncing' ? ' syncing' : state === 'error' ? ' error' : '');
-    lbl.textContent = text;
+    document.getElementById('syncLabel').textContent = text;
   }
 
   function showToast(msg) {
@@ -404,6 +348,7 @@
     return h + m / 60;
   }
 
+  // ADICIONAR
   window.addHora = function() {
     var dv = document.getElementById('h-data').value;
     var hr = parseHoras(document.getElementById('h-horas').value);
@@ -412,10 +357,6 @@
     appData.horas.sort(function(a,b){ return a.data.localeCompare(b.data); });
     document.getElementById('h-horas').value = '';
     saveToFirebase(); renderAll();
-  };
-  window.removeHora = function(i) {
-    if (!confirm('Remover este dia?')) return;
-    appData.horas.splice(i, 1); saveToFirebase(); renderAll();
   };
 
   window.addReceita = function() {
@@ -429,10 +370,6 @@
     document.getElementById('rec-valor').value = '';
     saveToFirebase(); renderAll();
   };
-  window.removeReceita = function(i) {
-    if (!confirm('Remover esta receita?')) return;
-    appData.receitas.splice(i, 1); saveToFirebase(); renderAll();
-  };
 
   window.addDespesa = function() {
     var dv = document.getElementById('desp-data').value;
@@ -445,23 +382,100 @@
     document.getElementById('desp-valor').value = '';
     saveToFirebase(); renderAll();
   };
+
+  // REMOVER
+  window.removeHora = function(i) {
+    if (!confirm('Remover este dia?')) return;
+    appData.horas.splice(i, 1); saveToFirebase(); renderAll();
+  };
+  window.removeReceita = function(i) {
+    if (!confirm('Remover esta receita?')) return;
+    appData.receitas.splice(i, 1); saveToFirebase(); renderAll();
+  };
   window.removeDespesa = function(i) {
     if (!confirm('Remover esta despesa?')) return;
     appData.despesas.splice(i, 1); saveToFirebase(); renderAll();
   };
 
-  function fmtBRL(v) {
-    return 'R$ ' + Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
-  function fmtH(dec) {
-    var h = Math.floor(Math.abs(dec));
-    var m = Math.round((Math.abs(dec) - h) * 60);
-    return h + 'h ' + String(m).padStart(2,'0') + 'min';
-  }
-  function fmtData(iso) {
-    var d = new Date(iso + 'T12:00:00');
-    return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0');
-  }
+  // EDITAR
+  window.editHora = function(i) {
+    var h = appData.horas[i];
+    var totalMin = h.horas;
+    var hInt = Math.floor(totalMin);
+    var mInt = Math.round((totalMin - hInt) * 60);
+    var hStr = hInt + ',' + String(mInt).padStart(2,'0');
+    editState = { type: 'hora', idx: i };
+    document.getElementById('modalTitle').textContent = 'Editar dia trabalhado';
+    document.getElementById('modalForm').innerHTML =
+      '<input type="date" id="edit-data" class="field-input" value="' + h.data + '">' +
+      '<input type="text" id="edit-horas" class="field-input" placeholder="Horas (ex: 8,30)" inputmode="decimal" value="' + hStr + '">';
+    document.getElementById('modalOverlay').classList.add('open');
+  };
+
+  window.editReceita = function(i) {
+    var r = appData.receitas[i];
+    editState = { type: 'receita', idx: i };
+    document.getElementById('modalTitle').textContent = 'Editar receita';
+    document.getElementById('modalForm').innerHTML =
+      '<input type="date" id="edit-data" class="field-input" value="' + r.data + '">' +
+      '<input type="text" id="edit-nome" class="field-input" placeholder="Descricao" value="' + r.nome + '" autocomplete="off">' +
+      '<input type="number" id="edit-valor" class="field-input" placeholder="Valor R$" inputmode="decimal" value="' + r.valor + '">';
+    document.getElementById('modalOverlay').classList.add('open');
+  };
+
+  window.editDespesa = function(i) {
+    var d = appData.despesas[i];
+    editState = { type: 'despesa', idx: i };
+    document.getElementById('modalTitle').textContent = 'Editar despesa';
+    document.getElementById('modalForm').innerHTML =
+      '<input type="date" id="edit-data" class="field-input" value="' + d.data + '">' +
+      '<input type="text" id="edit-nome" class="field-input" placeholder="Nome" value="' + d.nome + '" autocomplete="off">' +
+      '<input type="number" id="edit-valor" class="field-input" placeholder="Valor R$" inputmode="decimal" value="' + d.valor + '">';
+    document.getElementById('modalOverlay').classList.add('open');
+  };
+
+  window.closeModal = function() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    editState = { type: null, idx: null };
+  };
+
+  window.closeModalOutside = function(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  };
+
+  window.saveEdit = function() {
+    var dv = document.getElementById('edit-data').value;
+    if (!dv) { showToast('Preencha a data'); return; }
+
+    if (editState.type === 'hora') {
+      var hr = parseHoras(document.getElementById('edit-horas').value);
+      if (isNaN(hr) || hr < 0) { showToast('Horas invalidas (ex: 8,30)'); return; }
+      appData.horas[editState.idx] = { data: dv, horas: hr };
+      appData.horas.sort(function(a,b){ return a.data.localeCompare(b.data); });
+    } else if (editState.type === 'receita') {
+      var nm = document.getElementById('edit-nome').value.trim();
+      var vl = parseFloat(document.getElementById('edit-valor').value);
+      if (!nm || isNaN(vl) || vl < 0) { showToast('Preencha todos os campos'); return; }
+      appData.receitas[editState.idx] = { data: dv, nome: nm, valor: vl };
+      appData.receitas.sort(function(a,b){ return a.data.localeCompare(b.data); });
+    } else if (editState.type === 'despesa') {
+      var nm2 = document.getElementById('edit-nome').value.trim();
+      var vl2 = parseFloat(document.getElementById('edit-valor').value);
+      if (!nm2 || isNaN(vl2) || vl2 < 0) { showToast('Preencha todos os campos'); return; }
+      appData.despesas[editState.idx] = { data: dv, nome: nm2, valor: vl2 };
+      appData.despesas.sort(function(a,b){ return a.data.localeCompare(b.data); });
+    }
+
+    closeModal();
+    saveToFirebase();
+    renderAll();
+    showToast('Salvo!');
+  };
+
+  // FORMATOS
+  function fmtBRL(v) { return 'R$ ' + Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function fmtH(dec) { var h = Math.floor(Math.abs(dec)); var m = Math.round((Math.abs(dec) - h) * 60); return h + 'h ' + String(m).padStart(2,'0') + 'min'; }
+  function fmtData(iso) { var d = new Date(iso + 'T12:00:00'); return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0'); }
 
   function renderGrafico(totalHorasVal, totalReceitas, totalDespesas) {
     var ctx = document.getElementById('graficoResumo').getContext('2d');
@@ -470,46 +484,21 @@
       type: 'line',
       data: {
         labels: ['Receitas', 'Despesas'],
-        datasets: [
-          {
-            label: 'Valor',
-            data: [totalHorasVal + totalReceitas, totalDespesas],
-            pointBackgroundColor: ['#1D9E75', '#E24B4A'],
-            pointBorderColor: ['#1D9E75', '#E24B4A'],
-            pointRadius: 8,
-            pointHoverRadius: 10,
-            borderColor: '#ccc',
-            borderWidth: 2,
-            borderDash: [5, 4],
-            tension: 0,
-            fill: false
-          }
-        ]
+        datasets: [{
+          label: 'Valor',
+          data: [totalHorasVal + totalReceitas, totalDespesas],
+          pointBackgroundColor: ['#1D9E75', '#E24B4A'],
+          pointBorderColor: ['#1D9E75', '#E24B4A'],
+          pointRadius: 8, pointHoverRadius: 10,
+          borderColor: '#ccc', borderWidth: 2, borderDash: [5,4], tension: 0, fill: false
+        }]
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              title: function(items) { return items[0].label; },
-              label: function(ctx) {
-                return 'R$ ' + Number(ctx.raw).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-              }
-            }
-          }
-        },
+        responsive: true, maintainAspectRatio: true,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { title: function(i){ return i[0].label; }, label: function(ctx){ return 'R$ ' + Number(ctx.raw).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); } } } },
         scales: {
           x: { grid: { display: false }, ticks: { font: { size: 13 }, color: '#444' } },
-          y: {
-            grid: { color: '#f0f0f0' },
-            beginAtZero: true,
-            ticks: {
-              font: { size: 11 },
-              callback: function(v) { return 'R$' + (v >= 1000 ? (v/1000).toFixed(1) + 'k' : v); }
-            }
-          }
+          y: { grid: { color: '#f0f0f0' }, beginAtZero: true, ticks: { font: { size: 11 }, callback: function(v){ return 'R$'+(v>=1000?(v/1000).toFixed(1)+'k':v); } } }
         }
       }
     });
@@ -519,98 +508,74 @@
     fator = parseFloat(document.getElementById('fatorHora').value) || 0;
     var periodo = getPeriodo();
     var filtroHoras = getFiltroHoras();
+    var filtroRec = getFiltroReceitas();
+    var filtroDesp = getFiltroDespesas();
 
-    var horasPeriodo = appData.horas.filter(function(h) { return h.data >= periodo.inicio && h.data <= periodo.fim; });
-    var receitasPeriodo = appData.receitas.filter(function(r) { return r.data >= periodo.inicio && r.data <= periodo.fim; });
-    var despesasPeriodo = appData.despesas.filter(function(d) { return d.data >= periodo.inicio && d.data <= periodo.fim; });
+    var horasPeriodo = appData.horas.filter(function(h){ return h.data >= periodo.inicio && h.data <= periodo.fim; });
+    var receitasPeriodo = appData.receitas.filter(function(r){ return r.data >= periodo.inicio && r.data <= periodo.fim; });
+    var despesasPeriodo = appData.despesas.filter(function(d){ return d.data >= periodo.inicio && d.data <= periodo.fim; });
 
-    var totalHorasDec = horasPeriodo.reduce(function(s,h) { return s + h.horas; }, 0);
+    var totalHorasDec = horasPeriodo.reduce(function(s,h){ return s+h.horas; }, 0);
     var totalHorasVal = totalHorasDec * fator;
-    var totalReceitas = receitasPeriodo.reduce(function(s,r) { return s + r.valor; }, 0);
-    var totalDespesas = despesasPeriodo.reduce(function(s,d) { return s + d.valor; }, 0);
+    var totalReceitas = receitasPeriodo.reduce(function(s,r){ return s+r.valor; }, 0);
+    var totalDespesas = despesasPeriodo.reduce(function(s,d){ return s+d.valor; }, 0);
     var totalGanho = totalHorasVal + totalReceitas;
     var saldo = totalGanho - totalDespesas;
-    var dias = horasPeriodo.filter(function(h) { return h.horas > 0; }).length;
+    var dias = horasPeriodo.filter(function(h){ return h.horas > 0; }).length;
 
     document.getElementById('r-ganho').textContent = fmtBRL(totalGanho);
     document.getElementById('r-contas').textContent = fmtBRL(totalDespesas);
     document.getElementById('r-saldo').textContent = fmtBRL(saldo);
     document.getElementById('r-total-h').textContent = fmtH(totalHorasDec);
     document.getElementById('r-dias').textContent = dias;
-    document.getElementById('r-media').textContent = dias > 0 ? fmtH(totalHorasDec / dias) : '0h';
-    document.getElementById('r-saldo-card').className = 'resumo-card saldo ' + (saldo >= 0 ? 'pos' : 'neg');
+    document.getElementById('r-media').textContent = dias > 0 ? fmtH(totalHorasDec/dias) : '0h';
+    document.getElementById('r-saldo-card').className = 'resumo-card saldo '+(saldo>=0?'pos':'neg');
 
     renderGrafico(totalHorasVal, totalReceitas, totalDespesas);
 
-    // Detalhamento receitas
+    // Detalhamento resumo
     var drEl = document.getElementById('r-detalhe-receitas');
     var recRows = [];
-    if (totalHorasVal > 0) {
-      recRows.push('<div class="card-row"><div class="info"><div class="name">Horas trabalhadas</div><div class="sub">' + fmtH(totalHorasDec) + '</div></div><div class="amount pos">' + fmtBRL(totalHorasVal) + '</div></div>');
-    }
-    receitasPeriodo.forEach(function(r) {
-      recRows.push('<div class="card-row"><div class="info"><div class="name">' + r.nome + '</div></div><div class="amount pos">' + fmtBRL(r.valor) + '</div></div>');
-    });
-    if (recRows.length === 0) {
-      drEl.innerHTML = '<div class="empty">Nenhuma receita no per&#237;odo</div>';
-    } else {
-      drEl.innerHTML = recRows.join('') + '<div class="total-row green"><span>Total</span><span>' + fmtBRL(totalGanho) + '</span></div>';
-    }
+    if (totalHorasVal > 0) recRows.push('<div class="card-row"><div class="info"><div class="name">Horas trabalhadas</div><div class="sub">'+fmtH(totalHorasDec)+'</div></div><div class="amount pos">'+fmtBRL(totalHorasVal)+'</div></div>');
+    receitasPeriodo.forEach(function(r){ recRows.push('<div class="card-row"><div class="info"><div class="name">'+r.nome+'</div></div><div class="amount pos">'+fmtBRL(r.valor)+'</div></div>'); });
+    drEl.innerHTML = recRows.length === 0 ? '<div class="empty">Nenhuma receita no per&#237;odo</div>' : recRows.join('') + '<div class="total-row green"><span>Total</span><span>'+fmtBRL(totalGanho)+'</span></div>';
 
-    // Detalhamento despesas
     var ddEl = document.getElementById('r-detalhe-despesas');
     if (despesasPeriodo.length === 0) {
       ddEl.innerHTML = '<div class="empty">Nenhuma despesa no per&#237;odo</div>';
     } else {
-      var despRows = despesasPeriodo.map(function(d) {
-        return '<div class="card-row"><div class="info"><div class="name">' + d.nome + '</div></div><div class="amount neg">' + fmtBRL(d.valor) + '</div></div>';
-      }).join('');
-      ddEl.innerHTML = despRows + '<div class="total-row red"><span>Total</span><span>' + fmtBRL(totalDespesas) + '</span></div>';
+      ddEl.innerHTML = despesasPeriodo.map(function(d){ return '<div class="card-row"><div class="info"><div class="name">'+d.nome+'</div></div><div class="amount neg">'+fmtBRL(d.valor)+'</div></div>'; }).join('') + '<div class="total-row red"><span>Total</span><span>'+fmtBRL(totalDespesas)+'</span></div>';
     }
 
-    // Lista horas (filtro semana)
-    var horasVisiveis = appData.horas.filter(function(h) { return h.data >= filtroHoras.inicio && h.data <= filtroHoras.fim; });
+    // Lista horas
+    var horasVisiveis = appData.horas.filter(function(h){ return h.data >= filtroHoras.inicio && h.data <= filtroHoras.fim; });
+    var totalDecFiltro = horasVisiveis.reduce(function(s,h){ return s+h.horas; }, 0);
     var lh = document.getElementById('lista-horas');
-    if (!horasVisiveis.length) {
-      lh.innerHTML = '<div class="empty">Nenhum dia neste per&#237;odo</div>';
-    } else {
-      var totalDecFiltro = horasVisiveis.reduce(function(s,h) { return s + h.horas; }, 0);
-      var rows = horasVisiveis.map(function(h) {
+    lh.innerHTML = horasVisiveis.length === 0 ? '<div class="empty">Nenhum dia neste per&#237;odo</div>' :
+      '<div class="card">' + horasVisiveis.map(function(h){
         var idx = appData.horas.indexOf(h);
-        return '<div class="card-row"><div class="date-badge">' + fmtData(h.data) + '</div><div class="info"><div class="name">' + fmtH(h.horas) + '</div><div class="sub">R$ ' + fator.toFixed(2) + '/h</div></div><div class="amount pos">' + fmtBRL(h.horas * fator) + '</div><button class="del-btn" onclick="removeHora(' + idx + ')">&#215;</button></div>';
-      }).join('');
-      lh.innerHTML = '<div class="card">' + rows + '<div class="total-row green"><span>Total</span><span>' + fmtH(totalDecFiltro) + ' = ' + fmtBRL(totalDecFiltro * fator) + '</span></div></div>';
-    }
+        return '<div class="card-row"><div class="date-badge">'+fmtData(h.data)+'</div><div class="info"><div class="name">'+fmtH(h.horas)+'</div><div class="sub">R$ '+fator.toFixed(2)+'/h</div></div><div class="amount pos">'+fmtBRL(h.horas*fator)+'</div><div class="action-btns"><button class="edit-btn" onclick="editHora('+idx+')">&#9998;</button><button class="del-btn" onclick="removeHora('+idx+')">&#215;</button></div></div>';
+      }).join('') + '<div class="total-row green"><span>Total</span><span>'+fmtH(totalDecFiltro)+' = '+fmtBRL(totalDecFiltro*fator)+'</span></div></div>';
 
-    // Lista receitas (filtro proprio da aba)
-    var filtroRec = getFiltroReceitas();
-    var receitasVisiveis = appData.receitas.filter(function(r) { return r.data >= filtroRec.inicio && r.data <= filtroRec.fim; });
-    var totalRecVisiveis = receitasVisiveis.reduce(function(s,r) { return s + r.valor; }, 0);
+    // Lista receitas
+    var receitasVisiveis = appData.receitas.filter(function(r){ return r.data >= filtroRec.inicio && r.data <= filtroRec.fim; });
+    var totalRecVis = receitasVisiveis.reduce(function(s,r){ return s+r.valor; }, 0);
     var lr = document.getElementById('lista-receitas');
-    if (!receitasVisiveis.length) {
-      lr.innerHTML = '<div class="empty">Nenhuma receita neste per&#237;odo</div>';
-    } else {
-      var rrows = receitasVisiveis.map(function(r) {
+    lr.innerHTML = receitasVisiveis.length === 0 ? '<div class="empty">Nenhuma receita neste per&#237;odo</div>' :
+      '<div class="card">' + receitasVisiveis.map(function(r){
         var idx = appData.receitas.indexOf(r);
-        return '<div class="card-row"><div class="date-badge">' + fmtData(r.data) + '</div><div class="info"><div class="name">' + r.nome + '</div></div><div class="amount pos">' + fmtBRL(r.valor) + '</div><button class="del-btn" onclick="removeReceita(' + idx + ')">&#215;</button></div>';
-      }).join('');
-      lr.innerHTML = '<div class="card">' + rrows + '<div class="total-row green"><span>Total</span><span>' + fmtBRL(totalRecVisiveis) + '</span></div></div>';
-    }
+        return '<div class="card-row"><div class="date-badge">'+fmtData(r.data)+'</div><div class="info"><div class="name">'+r.nome+'</div></div><div class="amount pos">'+fmtBRL(r.valor)+'</div><div class="action-btns"><button class="edit-btn" onclick="editReceita('+idx+')">&#9998;</button><button class="del-btn" onclick="removeReceita('+idx+')">&#215;</button></div></div>';
+      }).join('') + '<div class="total-row green"><span>Total</span><span>'+fmtBRL(totalRecVis)+'</span></div></div>';
 
-    // Lista despesas (filtro proprio da aba)
-    var filtroDesp = getFiltroDespesas();
-    var despesasVisiveis = appData.despesas.filter(function(d) { return d.data >= filtroDesp.inicio && d.data <= filtroDesp.fim; });
-    var totalDespVisiveis = despesasVisiveis.reduce(function(s,d) { return s + d.valor; }, 0);
+    // Lista despesas
+    var despesasVisiveis = appData.despesas.filter(function(d){ return d.data >= filtroDesp.inicio && d.data <= filtroDesp.fim; });
+    var totalDespVis = despesasVisiveis.reduce(function(s,d){ return s+d.valor; }, 0);
     var ld = document.getElementById('lista-despesas');
-    if (!despesasVisiveis.length) {
-      ld.innerHTML = '<div class="empty">Nenhuma despesa neste per&#237;odo</div>';
-    } else {
-      var drows = despesasVisiveis.map(function(d) {
+    ld.innerHTML = despesasVisiveis.length === 0 ? '<div class="empty">Nenhuma despesa neste per&#237;odo</div>' :
+      '<div class="card">' + despesasVisiveis.map(function(d){
         var idx = appData.despesas.indexOf(d);
-        return '<div class="card-row"><div class="date-badge">' + fmtData(d.data) + '</div><div class="info"><div class="name">' + d.nome + '</div></div><div class="amount neg">' + fmtBRL(d.valor) + '</div><button class="del-btn" onclick="removeDespesa(' + idx + ')">&#215;</button></div>';
-      }).join('');
-      ld.innerHTML = '<div class="card">' + drows + '<div class="total-row red"><span>Total</span><span>' + fmtBRL(totalDespVisiveis) + '</span></div></div>';
-    }
+        return '<div class="card-row"><div class="date-badge">'+fmtData(d.data)+'</div><div class="info"><div class="name">'+d.nome+'</div></div><div class="amount neg">'+fmtBRL(d.valor)+'</div><div class="action-btns"><button class="edit-btn" onclick="editDespesa('+idx+')">&#9998;</button><button class="del-btn" onclick="removeDespesa('+idx+')">&#215;</button></div></div>';
+      }).join('') + '<div class="total-row red"><span>Total</span><span>'+fmtBRL(totalDespVis)+'</span></div></div>';
   };
 
   try {
@@ -639,10 +604,10 @@
   }
 </script>
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/planejamento-mensal/sw.js');
-    }
-  </script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/planejamento-mensal/sw.js');
+  }
+</script>
 </body>
 </html>
