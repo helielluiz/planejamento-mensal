@@ -78,7 +78,8 @@
     .del-btn:active { color: var(--danger); }
     .pay-btn { background: none; border: 1px solid #3B82F6; color: #60A5FA; border-radius: 6px; font-size: 10px; font-weight: 600; padding: 3px 6px; cursor: pointer; white-space: nowrap; font-family: inherit; flex-shrink: 0; }
     .pay-btn:active { background: var(--blue-light); }
-    .paid-badge { background: #0D2E20; color: #34D399; border-radius: 6px; font-size: 10px; font-weight: 600; padding: 3px 6px; white-space: nowrap; flex-shrink: 0; cursor: pointer; border: 1px solid #1A5C3A; }
+    .paid-badge { background: #0D2E20; color: #34D399; border-radius: 6px; font-size: 10px; font-weight: 600; padding: 3px 6px; white-space: nowrap; flex-shrink: 0; cursor: pointer; border: 1px solid #1A5C3A; font-family: inherit; }
+    .paid-badge:active { background: #2D1F1F; color: #F87171; border-color: #5C1A1A; }
     .total-row { display: flex; justify-content: space-between; padding: 10px 14px; font-size: 13px; font-weight: 600; }
     .total-row.green { background: #1E3A5F; color: #60A5FA; }
     .total-row.red { background: #2D1F1F; color: #F87171; }
@@ -652,7 +653,7 @@
       '<div class="card">'+despVis.map(function(d){
         var idx=appData.despesas.indexOf(d);
         var pagBtn = d.pago
-          ? '<span class="paid-badge" onclick="despagarDespesa('+idx+')">&#10003; '+(d.pago.cartao?d.pago.cartao:'Dinheiro')+'</span>'
+          ? '<button class="paid-badge" onclick="despagarDespesa('+idx+')">&#10003; '+(d.pago.cartao?d.pago.cartao:'Dinheiro')+' &times;</button>'
           : '<button class="pay-btn" onclick="pagarDespesa('+idx+')">Pagar</button>';
         var sub = d.pago ? 'Pago em '+fmtData(d.pago.data) : '';
         return '<div class="card-row'+(d.pago?' paga':'')+'"><div class="date-badge">'+fmtData(d.data)+'</div><div class="info"><div class="name">'+d.nome+'</div>'+(sub?'<div class="sub">'+sub+'</div>':'')+'</div><div class="amount '+(d.pago?'pago':'neg')+'">'+fmtBRL(d.valor)+'</div>'+pagBtn+'<div class="action-btns"><button class="edit-btn" onclick="editDespesa('+idx+')">&#9998;</button><button class="del-btn" onclick="removeDespesa('+idx+')">&#215;</button></div></div>';
