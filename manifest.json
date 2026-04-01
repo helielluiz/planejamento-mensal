@@ -6,8 +6,8 @@
   "scope": "/planejamento-mensal/",
   "id": "/planejamento-mensal/",
   "display": "standalone",
-  "background_color": "#1D9E75",
-  "theme_color": "#1D9E75",
+  "background_color": "#0F172A",
+  "theme_color": "#0F172A",
   "orientation": "portrait",
   "icons": [
     { "src": "/planejamento-mensal/icons/icon-72.png",  "sizes": "72x72",   "type": "image/png", "purpose": "any" },
