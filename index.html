@@ -17,6 +17,8 @@
     :root {
       --accent: #1D9E75; --accent-light: #E1F5EE; --accent-dark: #0F6E56;
       --danger: #E24B4A; --danger-light: #FCEBEB;
+      --blue: #185FA5; --blue-light: #E6F1FB;
+      --orange: #BA7517; --orange-light: #FAEEDA;
       --gray: #f4f6f8; --border: #e0e0e0; --text: #1a1a1a; --text-muted: #666;
     }
     .header { background: var(--accent); color: white; padding: 12px 16px 12px; padding-top: calc(12px + env(safe-area-inset-top)); }
@@ -39,12 +41,15 @@
     .content { padding: 12px; padding-bottom: 32px; width: 100%; max-width: 520px; margin: 0 auto; overflow-x: hidden; }
     .tab-pane { display: none; }
     .tab-pane.active { display: block; }
-    .resumo-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+    .resumo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+    .resumo-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
     .resumo-card { background: white; border-radius: 12px; padding: 12px 8px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
     .resumo-card .label { font-size: 10px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
-    .resumo-card .value { font-size: 13px; font-weight: 700; }
+    .resumo-card .value { font-size: 14px; font-weight: 700; }
     .resumo-card.ganho .value { color: var(--accent-dark); }
     .resumo-card.contas .value { color: var(--danger); }
+    .resumo-card.pagas .value { color: var(--blue); }
+    .resumo-card.cartao .value { color: var(--orange); }
     .resumo-card.saldo.pos .value { color: var(--accent-dark); }
     .resumo-card.saldo.neg .value { color: var(--danger); }
     .horas-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
@@ -53,26 +58,32 @@
     .ht-card .val { font-size: 13px; font-weight: 700; color: var(--accent-dark); }
     .section-title { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin: 16px 0 8px; }
     .card { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 10px; overflow: hidden; }
-    .card-row { display: flex; align-items: center; padding: 10px 12px; gap: 6px; border-bottom: 1px solid #f0f0f0; }
+    .card-row { display: flex; align-items: center; padding: 9px 10px; gap: 5px; border-bottom: 1px solid #f0f0f0; }
     .card-row:last-child { border-bottom: none; }
-    .card-row .date-badge { background: var(--gray); border-radius: 6px; padding: 3px 6px; font-size: 11px; font-weight: 600; color: var(--text-muted); min-width: 38px; text-align: center; flex-shrink: 0; }
+    .card-row.paga { background: #f8fff8; }
+    .card-row .date-badge { background: var(--gray); border-radius: 6px; padding: 3px 5px; font-size: 11px; font-weight: 600; color: var(--text-muted); min-width: 34px; text-align: center; flex-shrink: 0; }
     .card-row .info { flex: 1; min-width: 0; }
     .card-row .info .name { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .card-row .info .sub { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+    .card-row .info .sub { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
     .card-row .amount { font-size: 13px; font-weight: 600; white-space: nowrap; }
     .card-row .amount.pos { color: var(--accent-dark); }
     .card-row .amount.neg { color: var(--danger); }
-    .card-row .action-btns { display: flex; gap: 2px; flex-shrink: 0; }
-    .edit-btn { background: none; border: none; cursor: pointer; color: #999; font-size: 15px; padding: 2px 4px; line-height: 1; border-radius: 4px; }
+    .card-row .amount.pago { color: var(--blue); }
+    .action-btns { display: flex; gap: 2px; flex-shrink: 0; }
+    .edit-btn { background: none; border: none; cursor: pointer; color: #999; font-size: 14px; padding: 2px 3px; line-height: 1; border-radius: 4px; }
     .edit-btn:active { background: var(--accent-light); color: var(--accent-dark); }
-    .del-btn { background: none; border: none; cursor: pointer; color: #ccc; font-size: 18px; padding: 2px 4px; line-height: 1; border-radius: 4px; }
+    .del-btn { background: none; border: none; cursor: pointer; color: #ccc; font-size: 17px; padding: 2px 3px; line-height: 1; border-radius: 4px; }
     .del-btn:active { color: var(--danger); }
+    .pay-btn { background: none; border: 1px solid var(--blue); color: var(--blue); border-radius: 6px; font-size: 10px; font-weight: 600; padding: 3px 6px; cursor: pointer; white-space: nowrap; font-family: inherit; flex-shrink: 0; }
+    .pay-btn:active { background: var(--blue-light); }
+    .paid-badge { background: var(--blue-light); color: var(--blue); border-radius: 6px; font-size: 10px; font-weight: 600; padding: 3px 6px; white-space: nowrap; flex-shrink: 0; cursor: pointer; border: 1px solid transparent; }
     .total-row { display: flex; justify-content: space-between; padding: 10px 14px; font-size: 13px; font-weight: 600; }
     .total-row.green { background: var(--accent-light); color: var(--accent-dark); }
     .total-row.red { background: var(--danger-light); color: var(--danger); }
+    .total-row.blue { background: var(--blue-light); color: var(--blue); }
     .chart-card { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 14px 12px 12px; margin-bottom: 10px; }
-    .chart-legend { display: flex; gap: 16px; margin-top: 10px; justify-content: center; }
-    .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); }
+    .chart-legend { display: flex; gap: 10px; margin-top: 10px; justify-content: center; flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-muted); }
     .legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
     .add-form { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 14px; margin-bottom: 12px; }
     .fator-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
@@ -95,7 +106,6 @@
     .loading-logo { font-size: 48px; margin-bottom: 16px; }
     .loading-text { color: white; font-size: 18px; font-weight: 600; }
     .loading-sub { color: rgba(255,255,255,0.7); font-size: 13px; margin-top: 6px; }
-
     /* MODAL */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
     .modal-overlay.open { opacity: 1; pointer-events: all; }
@@ -106,7 +116,13 @@
     .modal-btns { display: flex; gap: 8px; }
     .modal-btn-cancel { flex: 1; padding: 13px; background: var(--gray); color: var(--text-muted); border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
     .modal-btn-save { flex: 2; padding: 13px; background: var(--accent); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
-    .modal-btn-save:active { background: var(--accent-dark); }
+    .modal-btn-save.blue { background: var(--blue); }
+    .modal-btn-save:active { opacity: 0.85; }
+    .checkbox-row { display: flex; align-items: center; gap: 10px; padding: 4px 0; }
+    .checkbox-row input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; accent-color: var(--blue); flex-shrink: 0; }
+    .checkbox-row label { font-size: 15px; color: var(--text); cursor: pointer; }
+    .cartao-select { display: none; }
+    .cartao-select.visible { display: block; }
   </style>
 </head>
 <body>
@@ -117,14 +133,14 @@
   <div class="loading-sub">Conectando...</div>
 </div>
 
-<!-- MODAL DE EDICAO -->
+<!-- MODAL EDICAO / PAGAMENTO -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
   <div class="modal">
     <div class="modal-title" id="modalTitle">Editar</div>
     <div class="modal-form" id="modalForm"></div>
     <div class="modal-btns">
       <button class="modal-btn-cancel" onclick="closeModal()">Cancelar</button>
-      <button class="modal-btn-save" onclick="saveEdit()">Salvar</button>
+      <button class="modal-btn-save" id="modalSaveBtn" onclick="saveModal()">Salvar</button>
     </div>
   </div>
 </div>
@@ -164,8 +180,13 @@
     <div class="tab-pane active" id="tab-resumo">
       <div class="resumo-grid">
         <div class="resumo-card ganho"><div class="label">Total ganho</div><div class="value" id="r-ganho">R$ 0</div></div>
-        <div class="resumo-card contas"><div class="label">Total contas</div><div class="value" id="r-contas">R$ 0</div></div>
         <div class="resumo-card saldo" id="r-saldo-card"><div class="label">Saldo</div><div class="value" id="r-saldo">R$ 0</div></div>
+      </div>
+      <div class="resumo-grid-2">
+        <div class="resumo-card contas"><div class="label">Total contas</div><div class="value" id="r-contas">R$ 0</div></div>
+        <div class="resumo-card pagas"><div class="label">Pagas</div><div class="value" id="r-pagas">R$ 0</div></div>
+        <div class="resumo-card cartao"><div class="label">No cart&#227;o</div><div class="value" id="r-cartao">R$ 0</div></div>
+        <div class="resumo-card" style="background:var(--danger-light)"><div class="label">A pagar</div><div class="value" style="color:var(--danger)" id="r-apagar">R$ 0</div></div>
       </div>
       <div class="section-title">Horas no per&#237;odo</div>
       <div class="horas-grid">
@@ -173,12 +194,14 @@
         <div class="ht-card"><div class="lbl">Dias trabalhados</div><div class="val" id="r-dias">0</div></div>
         <div class="ht-card"><div class="lbl">M&#233;dia/dia</div><div class="val" id="r-media">0h</div></div>
       </div>
-      <div class="section-title">Ganhos vs Despesas</div>
+      <div class="section-title">Vis&#227;o geral</div>
       <div class="chart-card">
-        <canvas id="graficoResumo" height="160"></canvas>
+        <canvas id="graficoResumo" height="180"></canvas>
         <div class="chart-legend">
           <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div>Receitas</div>
           <div class="legend-item"><div class="legend-dot" style="background:#E24B4A"></div>Despesas</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#185FA5"></div>Pagas</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#BA7517"></div>Cart&#227;o</div>
         </div>
       </div>
       <div class="section-title">Detalhamento de receitas</div>
@@ -260,36 +283,36 @@
     appId: "1:266235926962:web:5e1608137618076d5c6cab"
   };
 
+  var CARTOES = ['Mercado Pago', 'Nubank S', 'Nubank H', 'Santander', 'MEI'];
+
   var db, unsubscribe;
   var appData = { horas: [], receitas: [], despesas: [] };
   var fator = 0;
   var graficoInstance = null;
-  var editState = { type: null, idx: null };
+  var modalState = { type: null, idx: null };
 
   function toISO(d) { return d.toISOString().split('T')[0]; }
   function hoje() { return toISO(new Date()); }
   function defaultInicio() { var d = new Date(); d.setDate(1); return toISO(d); }
-  function defaultFim() { var n = new Date(); return toISO(new Date(n.getFullYear(), n.getMonth() + 1, 0)); }
-  function segundaFeira() { var d = new Date(); var dia = d.getDay(); d.setDate(d.getDate() + (dia === 0 ? -6 : 1 - dia)); return toISO(d); }
+  function defaultFim() { var n = new Date(); return toISO(new Date(n.getFullYear(), n.getMonth()+1, 0)); }
+  function segundaFeira() { var d = new Date(); var dia = d.getDay(); d.setDate(d.getDate()+(dia===0?-6:1-dia)); return toISO(d); }
 
-  function getPeriodo() { return { inicio: document.getElementById('periodoInicio').value || defaultInicio(), fim: document.getElementById('periodoFim').value || defaultFim() }; }
-  function getFiltroHoras() { return { inicio: document.getElementById('horasFiltroInicio').value || segundaFeira(), fim: document.getElementById('horasFiltroFim').value || hoje() }; }
-  function getFiltroReceitas() { return { inicio: document.getElementById('recFiltroInicio').value || defaultInicio(), fim: document.getElementById('recFiltroFim').value || defaultFim() }; }
-  function getFiltroDespesas() { return { inicio: document.getElementById('despFiltroInicio').value || defaultInicio(), fim: document.getElementById('despFiltroFim').value || defaultFim() }; }
+  function getPeriodo() { return { inicio: document.getElementById('periodoInicio').value||defaultInicio(), fim: document.getElementById('periodoFim').value||defaultFim() }; }
+  function getFiltroHoras() { return { inicio: document.getElementById('horasFiltroInicio').value||segundaFeira(), fim: document.getElementById('horasFiltroFim').value||hoje() }; }
+  function getFiltroReceitas() { return { inicio: document.getElementById('recFiltroInicio').value||defaultInicio(), fim: document.getElementById('recFiltroFim').value||defaultFim() }; }
+  function getFiltroDespesas() { return { inicio: document.getElementById('despFiltroInicio').value||defaultInicio(), fim: document.getElementById('despFiltroFim').value||defaultFim() }; }
 
   function docRef() { return doc(db, 'planejamento', 'dados'); }
 
   function setSyncStatus(state, text) {
-    var dot = document.getElementById('syncDot');
-    dot.className = 'sync-dot' + (state === 'syncing' ? ' syncing' : state === 'error' ? ' error' : '');
+    document.getElementById('syncDot').className = 'sync-dot'+(state==='syncing'?' syncing':state==='error'?' error':'');
     document.getElementById('syncLabel').textContent = text;
   }
 
   function showToast(msg) {
     var t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(function() { t.classList.remove('show'); }, 2500);
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(function(){ t.classList.remove('show'); }, 2500);
   }
   window.showToast = showToast;
 
@@ -299,15 +322,15 @@
     unsubscribe = onSnapshot(docRef(), function(snap) {
       if (snap.exists()) {
         appData = snap.data();
-        appData.horas = appData.horas || [];
-        appData.receitas = appData.receitas || [];
-        appData.despesas = appData.despesas || [];
+        appData.horas = appData.horas||[];
+        appData.receitas = appData.receitas||[];
+        appData.despesas = appData.despesas||[];
       } else {
-        appData = { horas: [], receitas: [], despesas: [] };
+        appData = { horas:[], receitas:[], despesas:[] };
       }
       renderAll();
       setSyncStatus('ok', 'Sincronizado');
-    }, function() { setSyncStatus('error', 'Erro de conexao'); });
+    }, function(){ setSyncStatus('error', 'Erro de conexao'); });
   }
 
   async function saveToFirebase() {
@@ -317,265 +340,298 @@
   }
 
   function loadFator() {
-    fator = parseFloat(localStorage.getItem('fator_hora')) || 0;
-    document.getElementById('fatorHora').value = fator || '';
+    fator = parseFloat(localStorage.getItem('fator_hora'))||0;
+    document.getElementById('fatorHora').value = fator||'';
   }
 
   window.saveFator = function() {
-    fator = parseFloat(document.getElementById('fatorHora').value) || 0;
+    fator = parseFloat(document.getElementById('fatorHora').value)||0;
     localStorage.setItem('fator_hora', fator);
     renderAll();
   };
 
   window.showTab = function(tab) {
-    document.querySelectorAll('.tab-pane').forEach(function(el) { el.classList.remove('active'); });
-    document.querySelectorAll('.tab').forEach(function(el) { el.classList.remove('active'); });
-    document.getElementById('tab-' + tab).classList.add('active');
-    var idx = ['resumo','horas','receitas','despesas'].indexOf(tab);
-    document.querySelectorAll('.tab')[idx].classList.add('active');
+    document.querySelectorAll('.tab-pane').forEach(function(el){ el.classList.remove('active'); });
+    document.querySelectorAll('.tab').forEach(function(el){ el.classList.remove('active'); });
+    document.getElementById('tab-'+tab).classList.add('active');
+    document.querySelectorAll('.tab')[['resumo','horas','receitas','despesas'].indexOf(tab)].classList.add('active');
     document.getElementById('mainContent').scrollTop = 0;
   };
 
-  window.onPeriodoChange = function() { renderAll(); };
+  window.onPeriodoChange = function(){ renderAll(); };
 
   function parseHoras(str) {
-    str = str.trim().replace(',', '.');
+    str = str.trim().replace(',','.');
     var val = parseFloat(str);
     if (isNaN(val)) return NaN;
-    var h = Math.floor(val);
-    var m = Math.round((val - h) * 100);
-    if (m >= 60) return NaN;
-    return h + m / 60;
+    var h = Math.floor(val), m = Math.round((val-h)*100);
+    if (m>=60) return NaN;
+    return h + m/60;
   }
 
   // ADICIONAR
   window.addHora = function() {
-    var dv = document.getElementById('h-data').value;
-    var hr = parseHoras(document.getElementById('h-horas').value);
-    if (!dv || isNaN(hr) || hr < 0) { showToast('Preencha data e horas (ex: 8,30)'); return; }
-    appData.horas.push({ data: dv, horas: hr });
+    var dv=document.getElementById('h-data').value, hr=parseHoras(document.getElementById('h-horas').value);
+    if (!dv||isNaN(hr)||hr<0){ showToast('Preencha data e horas (ex: 8,30)'); return; }
+    appData.horas.push({data:dv, horas:hr});
     appData.horas.sort(function(a,b){ return a.data.localeCompare(b.data); });
-    document.getElementById('h-horas').value = '';
+    document.getElementById('h-horas').value='';
     saveToFirebase(); renderAll();
   };
 
   window.addReceita = function() {
-    var dv = document.getElementById('rec-data').value;
-    var nm = document.getElementById('rec-nome').value.trim();
-    var vl = parseFloat(document.getElementById('rec-valor').value);
-    if (!dv || !nm || isNaN(vl) || vl < 0) { showToast('Preencha data, descricao e valor'); return; }
-    appData.receitas.push({ data: dv, nome: nm, valor: vl });
+    var dv=document.getElementById('rec-data').value, nm=document.getElementById('rec-nome').value.trim(), vl=parseFloat(document.getElementById('rec-valor').value);
+    if (!dv||!nm||isNaN(vl)||vl<0){ showToast('Preencha todos os campos'); return; }
+    appData.receitas.push({data:dv, nome:nm, valor:vl});
     appData.receitas.sort(function(a,b){ return a.data.localeCompare(b.data); });
-    document.getElementById('rec-nome').value = '';
-    document.getElementById('rec-valor').value = '';
+    document.getElementById('rec-nome').value=''; document.getElementById('rec-valor').value='';
     saveToFirebase(); renderAll();
   };
 
   window.addDespesa = function() {
-    var dv = document.getElementById('desp-data').value;
-    var nm = document.getElementById('desp-nome').value.trim();
-    var vl = parseFloat(document.getElementById('desp-valor').value);
-    if (!dv || !nm || isNaN(vl) || vl < 0) { showToast('Preencha data, nome e valor'); return; }
-    appData.despesas.push({ data: dv, nome: nm, valor: vl });
+    var dv=document.getElementById('desp-data').value, nm=document.getElementById('desp-nome').value.trim(), vl=parseFloat(document.getElementById('desp-valor').value);
+    if (!dv||!nm||isNaN(vl)||vl<0){ showToast('Preencha todos os campos'); return; }
+    appData.despesas.push({data:dv, nome:nm, valor:vl, pago:null});
     appData.despesas.sort(function(a,b){ return a.data.localeCompare(b.data); });
-    document.getElementById('desp-nome').value = '';
-    document.getElementById('desp-valor').value = '';
+    document.getElementById('desp-nome').value=''; document.getElementById('desp-valor').value='';
     saveToFirebase(); renderAll();
   };
 
   // REMOVER
-  window.removeHora = function(i) {
-    if (!confirm('Remover este dia?')) return;
-    appData.horas.splice(i, 1); saveToFirebase(); renderAll();
+  window.removeHora = function(i){ if (!confirm('Remover?')) return; appData.horas.splice(i,1); saveToFirebase(); renderAll(); };
+  window.removeReceita = function(i){ if (!confirm('Remover?')) return; appData.receitas.splice(i,1); saveToFirebase(); renderAll(); };
+  window.removeDespesa = function(i){ if (!confirm('Remover?')) return; appData.despesas.splice(i,1); saveToFirebase(); renderAll(); };
+
+  // MODAL
+  window.closeModal = function() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    modalState = { type:null, idx:null };
   };
-  window.removeReceita = function(i) {
-    if (!confirm('Remover esta receita?')) return;
-    appData.receitas.splice(i, 1); saveToFirebase(); renderAll();
-  };
-  window.removeDespesa = function(i) {
-    if (!confirm('Remover esta despesa?')) return;
-    appData.despesas.splice(i, 1); saveToFirebase(); renderAll();
-  };
+  window.closeModalOutside = function(e) { if (e.target===document.getElementById('modalOverlay')) closeModal(); };
+
+  function openModal(title, formHtml, saveLabel, saveColor, type, idx) {
+    modalState = { type:type, idx:idx };
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalForm').innerHTML = formHtml;
+    var btn = document.getElementById('modalSaveBtn');
+    btn.textContent = saveLabel;
+    btn.className = 'modal-btn-save' + (saveColor ? ' '+saveColor : '');
+    document.getElementById('modalOverlay').classList.add('open');
+  }
 
   // EDITAR
   window.editHora = function(i) {
     var h = appData.horas[i];
-    var totalMin = h.horas;
-    var hInt = Math.floor(totalMin);
-    var mInt = Math.round((totalMin - hInt) * 60);
-    var hStr = hInt + ',' + String(mInt).padStart(2,'0');
-    editState = { type: 'hora', idx: i };
-    document.getElementById('modalTitle').textContent = 'Editar dia trabalhado';
-    document.getElementById('modalForm').innerHTML =
-      '<input type="date" id="edit-data" class="field-input" value="' + h.data + '">' +
-      '<input type="text" id="edit-horas" class="field-input" placeholder="Horas (ex: 8,30)" inputmode="decimal" value="' + hStr + '">';
-    document.getElementById('modalOverlay').classList.add('open');
+    var hInt=Math.floor(h.horas), mInt=Math.round((h.horas-hInt)*60);
+    var hStr = hInt+','+String(mInt).padStart(2,'0');
+    openModal('Editar dia trabalhado',
+      '<input type="date" id="e-data" class="field-input" value="'+h.data+'">' +
+      '<input type="text" id="e-horas" class="field-input" placeholder="Horas (ex: 8,30)" inputmode="decimal" value="'+hStr+'">',
+      'Salvar', '', 'editHora', i);
   };
 
   window.editReceita = function(i) {
     var r = appData.receitas[i];
-    editState = { type: 'receita', idx: i };
-    document.getElementById('modalTitle').textContent = 'Editar receita';
-    document.getElementById('modalForm').innerHTML =
-      '<input type="date" id="edit-data" class="field-input" value="' + r.data + '">' +
-      '<input type="text" id="edit-nome" class="field-input" placeholder="Descricao" value="' + r.nome + '" autocomplete="off">' +
-      '<input type="number" id="edit-valor" class="field-input" placeholder="Valor R$" inputmode="decimal" value="' + r.valor + '">';
-    document.getElementById('modalOverlay').classList.add('open');
+    openModal('Editar receita',
+      '<input type="date" id="e-data" class="field-input" value="'+r.data+'">' +
+      '<input type="text" id="e-nome" class="field-input" value="'+r.nome+'" autocomplete="off">' +
+      '<input type="number" id="e-valor" class="field-input" inputmode="decimal" value="'+r.valor+'">',
+      'Salvar', '', 'editReceita', i);
   };
 
   window.editDespesa = function(i) {
     var d = appData.despesas[i];
-    editState = { type: 'despesa', idx: i };
-    document.getElementById('modalTitle').textContent = 'Editar despesa';
-    document.getElementById('modalForm').innerHTML =
-      '<input type="date" id="edit-data" class="field-input" value="' + d.data + '">' +
-      '<input type="text" id="edit-nome" class="field-input" placeholder="Nome" value="' + d.nome + '" autocomplete="off">' +
-      '<input type="number" id="edit-valor" class="field-input" placeholder="Valor R$" inputmode="decimal" value="' + d.valor + '">';
-    document.getElementById('modalOverlay').classList.add('open');
+    openModal('Editar despesa',
+      '<input type="date" id="e-data" class="field-input" value="'+d.data+'">' +
+      '<input type="text" id="e-nome" class="field-input" value="'+d.nome+'" autocomplete="off">' +
+      '<input type="number" id="e-valor" class="field-input" inputmode="decimal" value="'+d.valor+'">',
+      'Salvar', '', 'editDespesa', i);
   };
 
-  window.closeModal = function() {
-    document.getElementById('modalOverlay').classList.remove('open');
-    editState = { type: null, idx: null };
+  // PAGAR
+  window.pagarDespesa = function(i) {
+    var d = appData.despesas[i];
+    var cartoesOpts = CARTOES.map(function(c){ return '<option value="'+c+'">'+c+'</option>'; }).join('');
+    openModal('Confirmar pagamento — '+d.nome,
+      '<input type="date" id="e-data" class="field-input" value="'+hoje()+'">' +
+      '<div class="checkbox-row"><input type="checkbox" id="e-cartao-chk" onchange="toggleCartaoSelect()"><label for="e-cartao-chk">Pago no cart&#227;o</label></div>' +
+      '<select id="e-cartao-sel" class="field-input cartao-select"><option value="">Selecione o cart&#227;o</option>'+cartoesOpts+'</select>',
+      'Confirmar pagamento', 'blue', 'pagar', i);
   };
 
-  window.closeModalOutside = function(e) {
-    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  window.toggleCartaoSelect = function() {
+    var chk = document.getElementById('e-cartao-chk');
+    var sel = document.getElementById('e-cartao-sel');
+    sel.className = 'field-input cartao-select' + (chk.checked ? ' visible' : '');
   };
 
-  window.saveEdit = function() {
-    var dv = document.getElementById('edit-data').value;
-    if (!dv) { showToast('Preencha a data'); return; }
+  window.despagarDespesa = function(i) {
+    if (!confirm('Desmarcar pagamento desta despesa?')) return;
+    appData.despesas[i].pago = null;
+    saveToFirebase(); renderAll();
+  };
 
-    if (editState.type === 'hora') {
-      var hr = parseHoras(document.getElementById('edit-horas').value);
-      if (isNaN(hr) || hr < 0) { showToast('Horas invalidas (ex: 8,30)'); return; }
-      appData.horas[editState.idx] = { data: dv, horas: hr };
+  window.saveModal = function() {
+    var type = modalState.type, idx = modalState.idx;
+    var dv = document.getElementById('e-data') ? document.getElementById('e-data').value : '';
+
+    if (type === 'editHora') {
+      var hr = parseHoras(document.getElementById('e-horas').value);
+      if (!dv||isNaN(hr)||hr<0){ showToast('Dados invalidos'); return; }
+      appData.horas[idx] = { data:dv, horas:hr };
       appData.horas.sort(function(a,b){ return a.data.localeCompare(b.data); });
-    } else if (editState.type === 'receita') {
-      var nm = document.getElementById('edit-nome').value.trim();
-      var vl = parseFloat(document.getElementById('edit-valor').value);
-      if (!nm || isNaN(vl) || vl < 0) { showToast('Preencha todos os campos'); return; }
-      appData.receitas[editState.idx] = { data: dv, nome: nm, valor: vl };
+
+    } else if (type === 'editReceita') {
+      var nm=document.getElementById('e-nome').value.trim(), vl=parseFloat(document.getElementById('e-valor').value);
+      if (!dv||!nm||isNaN(vl)){ showToast('Dados invalidos'); return; }
+      appData.receitas[idx] = { data:dv, nome:nm, valor:vl };
       appData.receitas.sort(function(a,b){ return a.data.localeCompare(b.data); });
-    } else if (editState.type === 'despesa') {
-      var nm2 = document.getElementById('edit-nome').value.trim();
-      var vl2 = parseFloat(document.getElementById('edit-valor').value);
-      if (!nm2 || isNaN(vl2) || vl2 < 0) { showToast('Preencha todos os campos'); return; }
-      appData.despesas[editState.idx] = { data: dv, nome: nm2, valor: vl2 };
+
+    } else if (type === 'editDespesa') {
+      var nm2=document.getElementById('e-nome').value.trim(), vl2=parseFloat(document.getElementById('e-valor').value);
+      if (!dv||!nm2||isNaN(vl2)){ showToast('Dados invalidos'); return; }
+      var pagAtual = appData.despesas[idx].pago || null;
+      appData.despesas[idx] = { data:dv, nome:nm2, valor:vl2, pago:pagAtual };
       appData.despesas.sort(function(a,b){ return a.data.localeCompare(b.data); });
+
+    } else if (type === 'pagar') {
+      if (!dv){ showToast('Selecione a data'); return; }
+      var chk = document.getElementById('e-cartao-chk');
+      var cartao = null;
+      if (chk && chk.checked) {
+        cartao = document.getElementById('e-cartao-sel').value;
+        if (!cartao){ showToast('Selecione o cartao'); return; }
+      }
+      appData.despesas[idx].pago = { data: dv, cartao: cartao };
+      showToast('Pagamento confirmado!');
     }
 
     closeModal();
     saveToFirebase();
     renderAll();
-    showToast('Salvo!');
   };
 
   // FORMATOS
-  function fmtBRL(v) { return 'R$ ' + Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
-  function fmtH(dec) { var h = Math.floor(Math.abs(dec)); var m = Math.round((Math.abs(dec) - h) * 60); return h + 'h ' + String(m).padStart(2,'0') + 'min'; }
-  function fmtData(iso) { var d = new Date(iso + 'T12:00:00'); return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0'); }
+  function fmtBRL(v){ return 'R$ '+Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  function fmtH(dec){ var h=Math.floor(Math.abs(dec)), m=Math.round((Math.abs(dec)-h)*60); return h+'h '+String(m).padStart(2,'0')+'min'; }
+  function fmtData(iso){ var d=new Date(iso+'T12:00:00'); return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0'); }
 
-  function renderGrafico(totalHorasVal, totalReceitas, totalDespesas) {
+  function renderGrafico(totalGanho, totalDespesas, totalPagas, totalCartao) {
     var ctx = document.getElementById('graficoResumo').getContext('2d');
-    if (graficoInstance) { graficoInstance.destroy(); }
+    if (graficoInstance) graficoInstance.destroy();
     graficoInstance = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ['Receitas', 'Despesas'],
+        labels: ['Receitas', 'Despesas', 'Pagas', 'Cart\u00e3o'],
         datasets: [{
-          label: 'Valor',
-          data: [totalHorasVal + totalReceitas, totalDespesas],
-          pointBackgroundColor: ['#1D9E75', '#E24B4A'],
-          pointBorderColor: ['#1D9E75', '#E24B4A'],
+          data: [totalGanho, totalDespesas, totalPagas, totalCartao],
+          pointBackgroundColor: ['#1D9E75','#E24B4A','#185FA5','#BA7517'],
+          pointBorderColor: ['#1D9E75','#E24B4A','#185FA5','#BA7517'],
           pointRadius: 8, pointHoverRadius: 10,
-          borderColor: '#ccc', borderWidth: 2, borderDash: [5,4], tension: 0, fill: false
+          borderColor: '#ddd', borderWidth: 2, borderDash: [5,4], tension: 0, fill: false
         }]
       },
       options: {
         responsive: true, maintainAspectRatio: true,
-        plugins: { legend: { display: false }, tooltip: { callbacks: { title: function(i){ return i[0].label; }, label: function(ctx){ return 'R$ ' + Number(ctx.raw).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); } } } },
+        plugins: { legend:{display:false}, tooltip:{ callbacks:{ title:function(i){return i[0].label;}, label:function(ctx){ return 'R$ '+Number(ctx.raw).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); } } } },
         scales: {
-          x: { grid: { display: false }, ticks: { font: { size: 13 }, color: '#444' } },
-          y: { grid: { color: '#f0f0f0' }, beginAtZero: true, ticks: { font: { size: 11 }, callback: function(v){ return 'R$'+(v>=1000?(v/1000).toFixed(1)+'k':v); } } }
+          x: { grid:{display:false}, ticks:{font:{size:12},color:'#444'} },
+          y: { grid:{color:'#f0f0f0'}, beginAtZero:true, ticks:{font:{size:11}, callback:function(v){return 'R$'+(v>=1000?(v/1000).toFixed(1)+'k':v);}} }
         }
       }
     });
   }
 
   window.renderAll = function() {
-    fator = parseFloat(document.getElementById('fatorHora').value) || 0;
+    fator = parseFloat(document.getElementById('fatorHora').value)||0;
     var periodo = getPeriodo();
-    var filtroHoras = getFiltroHoras();
-    var filtroRec = getFiltroReceitas();
-    var filtroDesp = getFiltroDespesas();
 
-    var horasPeriodo = appData.horas.filter(function(h){ return h.data >= periodo.inicio && h.data <= periodo.fim; });
-    var receitasPeriodo = appData.receitas.filter(function(r){ return r.data >= periodo.inicio && r.data <= periodo.fim; });
-    var despesasPeriodo = appData.despesas.filter(function(d){ return d.data >= periodo.inicio && d.data <= periodo.fim; });
+    var horasPeriodo = appData.horas.filter(function(h){ return h.data>=periodo.inicio&&h.data<=periodo.fim; });
+    var receitasPeriodo = appData.receitas.filter(function(r){ return r.data>=periodo.inicio&&r.data<=periodo.fim; });
+    var despesasPeriodo = appData.despesas.filter(function(d){ return d.data>=periodo.inicio&&d.data<=periodo.fim; });
 
-    var totalHorasDec = horasPeriodo.reduce(function(s,h){ return s+h.horas; }, 0);
-    var totalHorasVal = totalHorasDec * fator;
-    var totalReceitas = receitasPeriodo.reduce(function(s,r){ return s+r.valor; }, 0);
-    var totalDespesas = despesasPeriodo.reduce(function(s,d){ return s+d.valor; }, 0);
-    var totalGanho = totalHorasVal + totalReceitas;
-    var saldo = totalGanho - totalDespesas;
-    var dias = horasPeriodo.filter(function(h){ return h.horas > 0; }).length;
+    var totalHorasDec = horasPeriodo.reduce(function(s,h){return s+h.horas;},0);
+    var totalHorasVal = totalHorasDec*fator;
+    var totalReceitas = receitasPeriodo.reduce(function(s,r){return s+r.valor;},0);
+    var totalDespesas = despesasPeriodo.reduce(function(s,d){return s+d.valor;},0);
+    var totalGanho = totalHorasVal+totalReceitas;
+    var saldo = totalGanho-totalDespesas;
+    var dias = horasPeriodo.filter(function(h){return h.horas>0;}).length;
+
+    var despesasPagas = despesasPeriodo.filter(function(d){return d.pago;});
+    var totalPagas = despesasPagas.reduce(function(s,d){return s+d.valor;},0);
+    var totalCartao = despesasPagas.filter(function(d){return d.pago&&d.pago.cartao;}).reduce(function(s,d){return s+d.valor;},0);
+    var totalAPagar = totalDespesas-totalPagas;
 
     document.getElementById('r-ganho').textContent = fmtBRL(totalGanho);
     document.getElementById('r-contas').textContent = fmtBRL(totalDespesas);
     document.getElementById('r-saldo').textContent = fmtBRL(saldo);
+    document.getElementById('r-pagas').textContent = fmtBRL(totalPagas);
+    document.getElementById('r-cartao').textContent = fmtBRL(totalCartao);
+    document.getElementById('r-apagar').textContent = fmtBRL(totalAPagar);
     document.getElementById('r-total-h').textContent = fmtH(totalHorasDec);
     document.getElementById('r-dias').textContent = dias;
-    document.getElementById('r-media').textContent = dias > 0 ? fmtH(totalHorasDec/dias) : '0h';
+    document.getElementById('r-media').textContent = dias>0?fmtH(totalHorasDec/dias):'0h';
     document.getElementById('r-saldo-card').className = 'resumo-card saldo '+(saldo>=0?'pos':'neg');
 
-    renderGrafico(totalHorasVal, totalReceitas, totalDespesas);
+    renderGrafico(totalGanho, totalDespesas, totalPagas, totalCartao);
 
-    // Detalhamento resumo
+    // Detalhamento resumo receitas
     var drEl = document.getElementById('r-detalhe-receitas');
     var recRows = [];
-    if (totalHorasVal > 0) recRows.push('<div class="card-row"><div class="info"><div class="name">Horas trabalhadas</div><div class="sub">'+fmtH(totalHorasDec)+'</div></div><div class="amount pos">'+fmtBRL(totalHorasVal)+'</div></div>');
+    if (totalHorasVal>0) recRows.push('<div class="card-row"><div class="info"><div class="name">Horas trabalhadas</div><div class="sub">'+fmtH(totalHorasDec)+'</div></div><div class="amount pos">'+fmtBRL(totalHorasVal)+'</div></div>');
     receitasPeriodo.forEach(function(r){ recRows.push('<div class="card-row"><div class="info"><div class="name">'+r.nome+'</div></div><div class="amount pos">'+fmtBRL(r.valor)+'</div></div>'); });
-    drEl.innerHTML = recRows.length === 0 ? '<div class="empty">Nenhuma receita no per&#237;odo</div>' : recRows.join('') + '<div class="total-row green"><span>Total</span><span>'+fmtBRL(totalGanho)+'</span></div>';
+    drEl.innerHTML = recRows.length===0?'<div class="empty">Nenhuma receita no per&#237;odo</div>':recRows.join('')+'<div class="total-row green"><span>Total</span><span>'+fmtBRL(totalGanho)+'</span></div>';
 
+    // Detalhamento resumo despesas
     var ddEl = document.getElementById('r-detalhe-despesas');
-    if (despesasPeriodo.length === 0) {
+    if (despesasPeriodo.length===0) {
       ddEl.innerHTML = '<div class="empty">Nenhuma despesa no per&#237;odo</div>';
     } else {
-      ddEl.innerHTML = despesasPeriodo.map(function(d){ return '<div class="card-row"><div class="info"><div class="name">'+d.nome+'</div></div><div class="amount neg">'+fmtBRL(d.valor)+'</div></div>'; }).join('') + '<div class="total-row red"><span>Total</span><span>'+fmtBRL(totalDespesas)+'</span></div>';
+      var ddRows = despesasPeriodo.map(function(d){
+        var pagInfo = d.pago ? ' <span style="color:var(--blue);font-size:10px;">&#10003; '+(d.pago.cartao?d.pago.cartao:'Dinheiro')+'</span>' : '';
+        return '<div class="card-row'+(d.pago?' paga':'')+'"><div class="info"><div class="name">'+d.nome+pagInfo+'</div></div><div class="amount '+(d.pago?'pago':'neg')+'">'+fmtBRL(d.valor)+'</div></div>';
+      }).join('');
+      ddEl.innerHTML = ddRows+'<div class="total-row red"><span>Total</span><span>'+fmtBRL(totalDespesas)+'</span></div>';
     }
 
     // Lista horas
-    var horasVisiveis = appData.horas.filter(function(h){ return h.data >= filtroHoras.inicio && h.data <= filtroHoras.fim; });
-    var totalDecFiltro = horasVisiveis.reduce(function(s,h){ return s+h.horas; }, 0);
+    var filtroHoras = getFiltroHoras();
+    var horasVis = appData.horas.filter(function(h){return h.data>=filtroHoras.inicio&&h.data<=filtroHoras.fim;});
+    var totalDecFiltro = horasVis.reduce(function(s,h){return s+h.horas;},0);
     var lh = document.getElementById('lista-horas');
-    lh.innerHTML = horasVisiveis.length === 0 ? '<div class="empty">Nenhum dia neste per&#237;odo</div>' :
-      '<div class="card">' + horasVisiveis.map(function(h){
-        var idx = appData.horas.indexOf(h);
+    lh.innerHTML = horasVis.length===0?'<div class="empty">Nenhum dia neste per&#237;odo</div>':
+      '<div class="card">'+horasVis.map(function(h){
+        var idx=appData.horas.indexOf(h);
         return '<div class="card-row"><div class="date-badge">'+fmtData(h.data)+'</div><div class="info"><div class="name">'+fmtH(h.horas)+'</div><div class="sub">R$ '+fator.toFixed(2)+'/h</div></div><div class="amount pos">'+fmtBRL(h.horas*fator)+'</div><div class="action-btns"><button class="edit-btn" onclick="editHora('+idx+')">&#9998;</button><button class="del-btn" onclick="removeHora('+idx+')">&#215;</button></div></div>';
-      }).join('') + '<div class="total-row green"><span>Total</span><span>'+fmtH(totalDecFiltro)+' = '+fmtBRL(totalDecFiltro*fator)+'</span></div></div>';
+      }).join('')+'<div class="total-row green"><span>Total</span><span>'+fmtH(totalDecFiltro)+' = '+fmtBRL(totalDecFiltro*fator)+'</span></div></div>';
 
     // Lista receitas
-    var receitasVisiveis = appData.receitas.filter(function(r){ return r.data >= filtroRec.inicio && r.data <= filtroRec.fim; });
-    var totalRecVis = receitasVisiveis.reduce(function(s,r){ return s+r.valor; }, 0);
+    var filtroRec = getFiltroReceitas();
+    var recVis = appData.receitas.filter(function(r){return r.data>=filtroRec.inicio&&r.data<=filtroRec.fim;});
+    var totalRecVis = recVis.reduce(function(s,r){return s+r.valor;},0);
     var lr = document.getElementById('lista-receitas');
-    lr.innerHTML = receitasVisiveis.length === 0 ? '<div class="empty">Nenhuma receita neste per&#237;odo</div>' :
-      '<div class="card">' + receitasVisiveis.map(function(r){
-        var idx = appData.receitas.indexOf(r);
+    lr.innerHTML = recVis.length===0?'<div class="empty">Nenhuma receita neste per&#237;odo</div>':
+      '<div class="card">'+recVis.map(function(r){
+        var idx=appData.receitas.indexOf(r);
         return '<div class="card-row"><div class="date-badge">'+fmtData(r.data)+'</div><div class="info"><div class="name">'+r.nome+'</div></div><div class="amount pos">'+fmtBRL(r.valor)+'</div><div class="action-btns"><button class="edit-btn" onclick="editReceita('+idx+')">&#9998;</button><button class="del-btn" onclick="removeReceita('+idx+')">&#215;</button></div></div>';
-      }).join('') + '<div class="total-row green"><span>Total</span><span>'+fmtBRL(totalRecVis)+'</span></div></div>';
+      }).join('')+'<div class="total-row green"><span>Total</span><span>'+fmtBRL(totalRecVis)+'</span></div></div>';
 
     // Lista despesas
-    var despesasVisiveis = appData.despesas.filter(function(d){ return d.data >= filtroDesp.inicio && d.data <= filtroDesp.fim; });
-    var totalDespVis = despesasVisiveis.reduce(function(s,d){ return s+d.valor; }, 0);
+    var filtroDesp = getFiltroDespesas();
+    var despVis = appData.despesas.filter(function(d){return d.data>=filtroDesp.inicio&&d.data<=filtroDesp.fim;});
+    var totalDespVis = despVis.reduce(function(s,d){return s+d.valor;},0);
+    var totalPagasVis = despVis.filter(function(d){return d.pago;}).reduce(function(s,d){return s+d.valor;},0);
     var ld = document.getElementById('lista-despesas');
-    ld.innerHTML = despesasVisiveis.length === 0 ? '<div class="empty">Nenhuma despesa neste per&#237;odo</div>' :
-      '<div class="card">' + despesasVisiveis.map(function(d){
-        var idx = appData.despesas.indexOf(d);
-        return '<div class="card-row"><div class="date-badge">'+fmtData(d.data)+'</div><div class="info"><div class="name">'+d.nome+'</div></div><div class="amount neg">'+fmtBRL(d.valor)+'</div><div class="action-btns"><button class="edit-btn" onclick="editDespesa('+idx+')">&#9998;</button><button class="del-btn" onclick="removeDespesa('+idx+')">&#215;</button></div></div>';
-      }).join('') + '<div class="total-row red"><span>Total</span><span>'+fmtBRL(totalDespVis)+'</span></div></div>';
+    ld.innerHTML = despVis.length===0?'<div class="empty">Nenhuma despesa neste per&#237;odo</div>':
+      '<div class="card">'+despVis.map(function(d){
+        var idx=appData.despesas.indexOf(d);
+        var pagBtn = d.pago
+          ? '<span class="paid-badge" onclick="despagarDespesa('+idx+')">&#10003; '+(d.pago.cartao?d.pago.cartao:'Dinheiro')+'</span>'
+          : '<button class="pay-btn" onclick="pagarDespesa('+idx+')">Pagar</button>';
+        var sub = d.pago ? 'Pago em '+fmtData(d.pago.data) : '';
+        return '<div class="card-row'+(d.pago?' paga':'')+'"><div class="date-badge">'+fmtData(d.data)+'</div><div class="info"><div class="name">'+d.nome+'</div>'+(sub?'<div class="sub">'+sub+'</div>':'')+'</div><div class="amount '+(d.pago?'pago':'neg')+'">'+fmtBRL(d.valor)+'</div>'+pagBtn+'<div class="action-btns"><button class="edit-btn" onclick="editDespesa('+idx+')">&#9998;</button><button class="del-btn" onclick="removeDespesa('+idx+')">&#215;</button></div></div>';
+      }).join('')+'<div class="total-row red"><span>Total</span><span>'+fmtBRL(totalDespVis)+'</span></div><div class="total-row blue"><span>Pagas</span><span>'+fmtBRL(totalPagasVis)+'</span></div></div>';
   };
 
   try {
@@ -598,9 +654,9 @@
     loadFator();
     subscribeData();
   } catch(e) {
-    setSyncStatus('error', 'Erro Firebase');
+    setSyncStatus('error','Erro Firebase');
     document.getElementById('loadingOverlay').classList.add('hidden');
-    alert('Erro ao conectar: ' + e.message);
+    alert('Erro ao conectar: '+e.message);
   }
 </script>
 
