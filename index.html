@@ -126,6 +126,7 @@
     .checkbox-row label { font-size: 15px; color: #E2E8F0; cursor: pointer; }
     .cartao-select { display: none; }
     .cartao-select.visible { display: block; }
+    .cartao-select option[disabled] { display: none; }
   </style>
 </head>
 <body>
@@ -481,7 +482,7 @@
     openModal('Confirmar pagamento — '+d.nome,
       '<input type="date" id="e-data" class="field-input" value="'+hoje()+'">' +
       '<div class="checkbox-row"><input type="checkbox" id="e-cartao-chk" onchange="toggleCartaoSelect()"><label for="e-cartao-chk">Pago no cart&#227;o</label></div>' +
-      '<select id="e-cartao-sel" class="field-input cartao-select"><option value="">Selecione o cart&#227;o</option>'+cartoesOpts+'</select>',
+      '<select id="e-cartao-sel" class="field-input cartao-select" required><option value="" disabled selected hidden>Selecione o cart&#227;o</option>'+cartoesOpts+'</select>',
       'Confirmar pagamento', 'blue', 'pagar', i);
   };
 
